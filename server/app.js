@@ -39,8 +39,10 @@ app.get('/chatbot', (req,res) => {
   if (input) {
     // res.send("Your input was:" + input);
     cbot.query(input).then((cres) =>{
-      console.log(cres);
-      res.send(cres.output);
+      // console.log(cres);
+      var cObj = { output: cres.output,
+                   cs    : cres.cs}
+      res.json(cObj);
     });
   } else {
     res.send("err");
