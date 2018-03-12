@@ -65,10 +65,10 @@ export function provideSettings(storage: Storage) {
     Camera,
     SplashScreen,
     StatusBar,
-    TextToSpeech,
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    TextToSpeech
   ]
 })
 export class AppModule { }

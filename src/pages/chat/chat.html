@@ -16,13 +16,13 @@
   <ion-grid>
     <ion-row *ngFor="let message of currentMessages">
         <div col-9>
-          <button class="botmessage" *ngIf="message.name === 'CleverBot'" ion-item (click)="text2speech(message)" color="primary">
+          <button class="botmessage" *ngIf="message.name === 'CleverBot'" ion-item (click)="playSpeech($event, message)" color="primary">
             <h3>{{message.name}}</h3>
             <h2>{{message.content}}</h2>
           </button>
         </div>
         <div col-9 offset-3>
-          <button col-9 class="usermessage"  *ngIf="message.name !== 'CleverBot'" ion-item (click)="text2speech(message)" color="secondary">
+          <button col-9 class="usermessage"  *ngIf="message.name !== 'CleverBot'" ion-item (click)="playSpeech($event, message)" color="secondary">
             <h3 >{{message.name}}</h3>
             <h2>{{message.content}}</h2>
           </button>
@@ -36,11 +36,12 @@
 <ion-footer>
   <ion-toolbar>
     <ion-row>
-      <ion-col col-9>
+      <ion-col col-9 class="textInput">
         <ion-item>
-          <ion-input type="text" placeholder="write a message here" > </ion-input>
+          <ion-input  type="text" placeholder="write a message here" > </ion-input>
         </ion-item>
       </ion-col>
+
     </ion-row>
   </ion-toolbar>
 </ion-footer>
