@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 
-import { Item } from '../../models/item';
+import { Message } from '../../models/message';
 import { Api } from '../api/api';
 
 @Injectable()
-export class Items {
+export class Messages {
 
   constructor(public api: Api) { }
 
   query(params?: any) {
-    return this.api.get('/items', params);
+    return this.api.get('/messages', params);
   }
 
-  add(item: Item) {
+  add(message: Message) {
   }
 
-  delete(item: Item) {
+  delete(message: Message) {
   }
 
 }
