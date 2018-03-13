@@ -18,7 +18,32 @@ export class ChatbotInterfaceProvider {
 
   constructor(public http: HttpClient, public api: Api) {
     console.log('Hello ChatbotInterfaceProvider Provider');
-    this.messages = [];
+    this.messages = [
+      // {
+      //   "name": "CleverBot",
+      //   "content": "Hello!",
+      // },
+      // {
+      //   "name": "User",
+      //   "content": "Hello!",
+      // },
+      // {
+      //   "name": "CleverBot",
+      //   "content": "How are you today!",
+      // },
+      // {
+      //   "name": "User",
+      //   "content": "Great! How are you",
+      // },
+      // {
+      //   "name": "CleverBot",
+      //   "content": "Fine",
+      // },
+      // {
+      //   "name": "User",
+      //   "content": "What is the weather today",
+      // }
+    ];
   }
 
   getChatMessages(chatId: String){
