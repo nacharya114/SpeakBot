@@ -25,7 +25,7 @@ export class ChatPage {
   }
 
   playSpeech(event, message: Message) {
-      this.text2speech.speak(message.content);
+      this.text2speech.speak(message.content).catch( error => {});
   }
 
 }
