@@ -11,7 +11,6 @@
 
 </ion-header>
 
-
 <ion-content>
 
   <ion-grid>
@@ -28,21 +27,23 @@
             <h2>{{message.content}}</h2>
           </button>
         </div>
-    </ion-row>
-    <ion-col width-50 style="text-align: center">
-      <button ion-button (click)= "listenForSpeech()"><ion-icon name="mic"></ion-icon></button>
-    </ion-col>
+      </ion-row>
   </ion-grid>
+
 
 </ion-content>
 
-
-<!--<ion-footer>
+<ion-footer>
   <ion-toolbar>
     <ion-row>
-      <ion-col width-50 style="text-align: center">
-        <button ion-button (click)= "listenForSpeech()"><ion-icon name="mic"></ion-icon></button>
+      <ion-col col-8 class="textInput">
+        <ion-item>
+          <ion-input  type="text" [innerHTML]="userInput" > </ion-input>
+        </ion-item>
       </ion-col>
+        <button ion-button (click)= "listenForSpeech()"><ion-icon name="mic"></ion-icon></button>
+        <button ion-button (click)= "sendMessage(userInput)"><ion-icon name ="paper-plane"></ion-icon></button>
+
     </ion-row>
   </ion-toolbar>
-</ion-footer> -->
+</ion-footer>
