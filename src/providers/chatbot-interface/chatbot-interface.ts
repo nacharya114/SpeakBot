@@ -52,8 +52,10 @@ export class ChatbotInterfaceProvider {
 
   sendMessage(msgStr: String, chatId: String) {
     this.createUserReply(msgStr);
+    console.log("Geting message");
     this.api.get(this.endpoint, {"input": msgStr,
                                   "cs": chatId}).subscribe((data) => {
+                                    console.log("Testing api get");
                                     this.chatId = data["cs"];
                                     this.createCleverbotReply(data["output"]);
                                   });
