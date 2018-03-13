@@ -9,6 +9,7 @@ import { IonicStorageModule, Storage } from '@ionic/storage';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { SpeechRecognition } from '@ionic-native/speech-recognition'; //abg3/13
 
 import { Messages } from '../mocks/providers/messages';
 import { Settings } from '../providers/providers';
@@ -68,7 +69,8 @@ export function provideSettings(storage: Storage) {
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    TextToSpeech
+    TextToSpeech,
+    SpeechRecognition //abg3/13
   ]
 })
 export class AppModule { }
