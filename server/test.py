@@ -2,7 +2,7 @@
 import requests
 import urllib
 
-url = "https://http://speakbot-197821.appspot.com/chatbot"
+url = "https://speakbot-197821.appspot.com/chatbot"
 obj = { 'cs' : ''}
 
 if __name__ == "__main__":
