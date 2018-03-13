@@ -42,6 +42,8 @@ export class ChatPage {
     catch(e){}
   }
 
+ sendMessage(message: Message){} //temporarily empty function
+
  getMessages() {
    //this.messages = ["hello how are you", "I am well, how are you", "good"];
   }
