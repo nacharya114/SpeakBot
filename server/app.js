@@ -40,7 +40,7 @@ app.get('/chatbot', (req,res) => {
     cbot.query(input, {
       cs: chatId
     }).then((cres) =>{
-      // console.log(cres);
+      console.log(cres);
       var cObj = { output: cres.output,
                    cs    : cres.cs}
       res.json(cObj);
