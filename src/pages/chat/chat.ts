@@ -36,7 +36,7 @@ export class ChatPage {
             this.userInput = this.speechList[0];
       }, error => console.log(error));
       }else{
-        const permission = await this.speech.requestPermission();
+        await this.speech.requestPermission();
       }
     }
     catch(e){}
