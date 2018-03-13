@@ -4,6 +4,4 @@ env: flex
 network:
   forwarded_ports:
     - 3000/tcp
-env_variables:
-  PORT: 3000
 # [END app_yaml]
