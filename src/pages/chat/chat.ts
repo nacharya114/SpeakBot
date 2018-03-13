@@ -32,7 +32,7 @@ export class ChatPage {
         this.speech.startListening({"language": "en-EN"}).subscribe(
         data =>
           {this.speechList = data;
-            this.userInput = this.speechList[0]; 
+            this.userInput = this.speechList[0];
       }, error => console.log(error));
       }else{
         const permission = await this.speech.requestPermission();
@@ -40,6 +40,8 @@ export class ChatPage {
     }
     catch(e){}
   }
+
+ sendMessage(message: Message){} //temporarily empty function
 
  getMessages() {
    //this.messages = ["hello how are you", "I am well, how are you", "good"];

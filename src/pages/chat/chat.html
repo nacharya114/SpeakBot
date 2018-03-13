@@ -36,12 +36,13 @@
 <ion-footer>
   <ion-toolbar>
     <ion-row>
-      <ion-col col-9 class="textInput">
+      <ion-col col-8 class="textInput">
         <ion-item>
           <ion-input  type="text" [innerHTML]="userInput" > </ion-input>
         </ion-item>
       </ion-col>
         <button ion-button (click)= "listenForSpeech()"><ion-icon name="mic"></ion-icon></button>
+        <button ion-button (click)= "sendMessage(userInput)"><ion-icon name ="paper-plane"></ion-icon></button>
 
     </ion-row>
   </ion-toolbar>
