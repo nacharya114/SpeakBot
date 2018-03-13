@@ -17,7 +17,7 @@ export class ChatbotInterfaceProvider {
 
   constructor(public http: HttpClient, api: Api) {
     console.log('Hello ChatbotInterfaceProvider Provider');
-    let messages = [
+    this.messages = [
       {
         "name": "CleverBot",
         "content": "Hello!",
