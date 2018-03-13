@@ -43,6 +43,8 @@ export class ChatPage {
   }
 
  sendMessage(message: String){
+   //TODO: Add textbox clear after sending, 
+   //and deactivation of send button for empty messages
    this.chatbotInterface.sendMessage(message, "");
  } //temporarily empty function
 
