@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, ModalController, NavController } from 'ionic-angular';
 
 import { TextToSpeech } from '@ionic-native/text-to-speech';
@@ -7,6 +7,7 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { Message } from '../../models/message';
 // import { Messages } from '../../providers/providers';
 import { ChatbotInterfaceProvider } from '../../providers/chatbot-interface/chatbot-interface'
+import { Content } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -14,6 +15,7 @@ import { ChatbotInterfaceProvider } from '../../providers/chatbot-interface/chat
   templateUrl: 'chat.html'
 })
 export class ChatPage {
+  @ViewChild(Content) content: Content;
   currentMessages: Message[];
   speechList: Array<string> = [];
   userInput: String = "";
@@ -22,6 +24,7 @@ export class ChatPage {
   //this.messages = this.getMessages();
   this.currentMessages = this.chatbotInterface.getChatMessages("");
   //this.getMessages();
+  //this.bottomScroll();
   }
 
   async listenForSpeech():Promise<void>{
@@ -34,17 +37,20 @@ export class ChatPage {
         data =>
           {this.speechList = data;
             this.userInput = this.speechList[0];
+            this.chatbotInterface.sendMessage(this.userInput, "");
+            this.bottomScroll();
       }, error => console.log(error));
       }else{
         await this.speech.requestPermission();
       }
     }
     catch(e){}
+
   }
 
- sendMessage(message: String){
+ /*sendMessage(message: String){
    this.chatbotInterface.sendMessage(message, "");
- } //temporarily empty function
+ } //temporarily empty function */
 
  getMessages() {
    //this.messages = ["hello how are you", "I am well, how are you", "good"];
@@ -54,4 +60,7 @@ export class ChatPage {
       this.text2speech.speak(message.content).catch( error => {});
   }
 
+bottomScroll(){
+   this.content.scrollToBottom(300);
+ }
 }
