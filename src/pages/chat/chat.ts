@@ -48,7 +48,10 @@ export class ChatPage {
 
   }
 
+<<<<<<< HEAD
  /*sendMessage(message: String){
+=======
+>>>>>>> 251d3f43c0ddb13a4b85585c4d440463c8c5c4b2
    this.chatbotInterface.sendMessage(message, "");
  } //temporarily empty function */
 
