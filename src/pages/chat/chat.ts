@@ -5,7 +5,8 @@ import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
 
 import { Message } from '../../models/message';
-import { Messages } from '../../providers/providers';
+// import { Messages } from '../../providers/providers';
+import { ChatbotInterfaceProvider } from '../../providers/chatbot-interface/chatbot-interface'
 
 @IonicPage()
 @Component({
@@ -17,9 +18,9 @@ export class ChatPage {
   speechList: Array<string> = [];
   userInput: String = "";
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public messages: Messages, private text2speech: TextToSpeech, private speech: SpeechRecognition) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech, private speech: SpeechRecognition) {
   //this.messages = this.getMessages();
-  this.currentMessages = this.messages.query();
+  this.currentMessages = this.chatbotInterface.getChatMessages("");
   //this.getMessages();
   }
 
@@ -32,7 +33,7 @@ export class ChatPage {
         this.speech.startListening({"language": "en-EN"}).subscribe(
         data =>
           {this.speechList = data;
-            this.userInput = this.speechList[0]; 
+            this.userInput = this.speechList[0];
       }, error => console.log(error));
       }else{
         const permission = await this.speech.requestPermission();
