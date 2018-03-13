@@ -2,7 +2,7 @@
 import requests
 import urllib
 
-url = "http://ec2-54-145-51-144.compute-1.amazonaws.com:3000/chatbot"
+url = "https://http://speakbot-197821.appspot.com/chatbot"
 obj = { 'cs' : ''}
 
 if __name__ == "__main__":
