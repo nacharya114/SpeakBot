@@ -34,13 +34,22 @@ app.get('/chatbot', (req,res) => {
   input = req.query.input;
   chatId = req.query.cs;
 
+  console.log("User Input: " + input);
+  console.log("Incoming Chat Id: " + chatId);
+  console.log("");
+
+
   if (input) {
     // res.send("Your input was:" + input);
 
     cbot.query(input, {
       cs: chatId
     }).then((cres) =>{
-      console.log(cres);
+      
+      console.log("Cleverbot Output: " + cres.output);
+      console.log("Cleverbot ChatId: " + cres.cs);
+      console.log();
+
       var cObj = { output: cres.output,
                    cs    : cres.cs}
       res.json(cObj);
