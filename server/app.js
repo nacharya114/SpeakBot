@@ -30,26 +30,16 @@ app.get("/", (req, res) =>{
 /*this ignores conversation history
 and just sends each message as a new conversation */
 app.get('/chatbot', (req,res) => {
-
-  input = req.query.input;
-  chatId = req.query.cs;
-
-  console.log("User Input: " + input);
-  console.log("Incoming Chat Id: " + chatId);
-  console.log("");
-
+  console.log("Body:");
+  console.log(req.body);
+  console.log("Query: ")
+  console.log(req.query);
+  input = req.body.input || req.query.input; 
 
   if (input) {
     // res.send("Your input was:" + input);
-
-    cbot.query(input, {
-      cs: chatId
-    }).then((cres) =>{
-      
-      console.log("Cleverbot Output: " + cres.output);
-      console.log("Cleverbot ChatId: " + cres.cs);
-      console.log();
-
+    cbot.query(input).then((cres) =>{
+      // console.log(cres);
       var cObj = { output: cres.output,
                    cs    : cres.cs}
       res.json(cObj);
