@@ -46,32 +46,42 @@ export class ChatbotInterfaceProvider {
     ];
   }
 
-  getChatMessages(chatId: String){
+  getChatMessages(){
     return this.messages;
   }
 
-  sendMessage(msgStr: String, chatId: String) {
-    this.createUserReply(msgStr);
+  sendMessage(msgStr: String, chatId: String): Promise<Message> {
+    this.messages.push(this.createUserReply(msgStr));
     console.log("Geting message");
-    this.api.get(this.endpoint, {"input": msgStr,
-                                  "cs": chatId}).subscribe((data) => {
-                                    console.log("Testing api get");
-                                    this.chatId = data["cs"];
-                                    this.createCleverbotReply(data["output"]);
-                                  });
+    let p = new Promise((resolve) =>{
+      this.api.get(this.endpoint, {"input": msgStr,
+                                    "cs": chatId}).subscribe((data) => {
+                                      console.log("Testing api get");
+                                      this.chatId = data["cs"];
+                                      resolve(this.createCleverbotReply(data["output"]));
+                                    });
+    });
+    return p;
   }
 
-  private createCleverbotReply(message: String){
-    this.createReply("CleverBot", message);
+  hasChatId():boolean {
+    return (this.chatId ? true : false);
   }
 
-  private createUserReply(message: String) {
-    this.createReply("User", message);
+  getChatId():String {
+    return this.chatId;
+  }
+  private createCleverbotReply(message: String): Message{
+    return this.createReply("CleverBot", message);
   }
 
-  private createReply(name: String, content: String) {
-    this.messages.push(new Message({"name": name,
-            "content": content}));
+  private createUserReply(message: String):Message {
+    return this.createReply("User", message);
+  }
+
+  private createReply(name: String, content: String):Message {
+    return new Message({"name": name,
+            "content": content});
   }
 
 }
