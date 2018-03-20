@@ -73,6 +73,7 @@ export class ChatPage {
        this.chatbotInterface.sendMessage(msg,this.chatId)
         .then((message)=> {
           this.currentMessages.push(message);
+          this.text2speech.speak(message.content);
         });
      });
    });
