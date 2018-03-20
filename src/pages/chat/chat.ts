@@ -79,6 +79,7 @@ export class ChatPage {
        this.chatbotInterface.sendMessage(msg,this.chatId)
         .then((message)=> {
           this.currentMessages.push(message);
+          this.scrollToBottom();
           this.text2speech.speak(message.content).catch(error => {});
         });
      });
@@ -124,8 +125,4 @@ export class ChatPage {
   playSpeech(event, message: Message) {
       this.text2speech.speak(message.content).catch( error => {});
   }
-
-bottomScroll(){
-   this.content.scrollToBottom(300);
- }
 }

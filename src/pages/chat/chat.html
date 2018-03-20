@@ -28,11 +28,14 @@
           </button>
         </div>
       </ion-row>
-
+    <!--  <ion-col width-50 style = "text-align: center">
+        <button ion-button (click) = "sendMessage()"><ion-icon name="mic"></ion-icon></button>
+      </ion-col> -->
   </ion-grid>
 
-  <ion-fab bottom center>
-    <button ion-button (click) = "send()"><ion-icon name="mic"></ion-icon></button>
-  </ion-fab>
 
 </ion-content>
+
+<ion-fab bottom center>
+  <button ion-fab (click) = "sendMessage()"><ion-icon name="mic"></ion-icon></button>
+</ion-fab>
