@@ -50,6 +50,15 @@ app.get('/chatbot', (req,res) => {
   }
 });
 
+app.post('/login', (req, res)=> {
+  //TODO: Create a user database in firebase/GCP/
+    let account = req.body;
+
+    if (account) {
+
+    }
+});
+
 
 
 
