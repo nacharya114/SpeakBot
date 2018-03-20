@@ -25,11 +25,8 @@ export class ChatPage {
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech,
     private speech: SpeechRecognition, _zone: NgZone) {
-  //this.messages = this.getMessages();
   this._zone = _zone;
   this.currentMessages = this.chatbotInterface.getChatMessages();
-  //this.getMessages();
-  //this.bottomScroll();
   }
 
   // listenForSpeech() {
@@ -67,16 +64,40 @@ export class ChatPage {
    return p;
  }
 
+ ionViewDidEnter(){ //adding these too in an attempt to add auto scrolling -g 3/20
+     this.content.scrollToBottom(300);//300ms animation speed
+ }
+ scrollToBottom(){
+         setTimeout(() => {
+             this.content.scrollToBottom();
+         });
+ }
+
  sendMessage(){
    this._zone.run(() => {
      this.listen().then(msg => {
        this.chatbotInterface.sendMessage(msg,this.chatId)
         .then((message)=> {
           this.currentMessages.push(message);
+          this.text2speech.speak(message.content).catch(error => {});
         });
      });
    });
  } //temporarily empty function */
+
+ send(){
+   this.hasPermission()
+    .then(data =>{
+      if (data) {
+        this.sendMessage();
+      } else {
+        this.getPermission()
+        .then(() => {
+          this.sendMessage();
+        });
+      }
+    });
+ }
 
  async hasPermission():Promise<boolean> {
    try {
