@@ -6,6 +6,8 @@ var bodyparser =require('body-parser');
 const Cleverbot = require('cleverbot');
 var cbot = new Cleverbot({key: "CC7i1plOP5-fomRyfjyWM33QSkg"});
 
+var auth = require('./auth');
+
 var port = process.env.PORT || 3000;
 
 
@@ -59,6 +61,12 @@ app.post('/login', (req, res)=> {
     }
 });
 
+app.post('/signup', (req, res)=> {
+    let newAccount = req.body;
+    console.log(newAccount);
+    var user = auth.addUser(newAccount.username, newAccount.password);
+    res.send(user);
+});
 
 
 
