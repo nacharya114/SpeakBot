@@ -17,7 +17,7 @@ import { User } from '../providers/providers';
 import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
 import { ChatbotInterfaceProvider } from '../providers/chatbot-interface/chatbot-interface';
-
+import { NativePageTransitions } from '@ionic-native/native-page-transitions';
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
 export function createTranslateLoader(http: HttpClient) {
@@ -70,6 +70,7 @@ export function provideSettings(storage: Storage) {
     { provide: Settings, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    NativePageTransitions,
     TextToSpeech,
     SpeechRecognition,
     ChatbotInterfaceProvider //abg3/13
