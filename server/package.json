@@ -4,7 +4,8 @@
   "description": "A server for SpeakBot",
   "main": "app.js",
   "scripts": {
-    "test": "node app.js"
+    "test": "node app.js",
+    "start": "node app.js"
   },
   "author": "Neil Acharya",
   "license": "ISC",
