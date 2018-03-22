@@ -43,7 +43,6 @@ app.get('/chatbot', (req,res) => {
     cbot.query(input, {
       cs: chatId
     }).then((cres) =>{
-      console.log(cres);
       var cObj = { output: cres.output,
                    cs    : cres.cs}
       res.json(cObj);
@@ -55,10 +54,21 @@ app.get('/chatbot', (req,res) => {
 
 app.post('/login', (req, res)=> {
   //TODO: Create a user database in firebase/GCP/
-    let account = req.body;
+    var account = req.body;
 
     if (account) {
-
+        user = auth.isValidUser(account.username, account.password);
+        console.log(user);
+        if (!user) {
+          res.send({
+            "status": "Error",
+            "detail": "User not found"
+          });
+        } else {
+          res.send({"status": "Success"});
+        }
+    } else{
+      res.status(400).send("Bad Request");
     }
 });
 
