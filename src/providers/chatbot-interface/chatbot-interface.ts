@@ -51,14 +51,14 @@ export class ChatbotInterfaceProvider {
   }
 
   sendMessage(msgStr: String, chatId: String): Promise<Message> {
-    this.messages.push(this.createUserReply(msgStr));
+    this.messages.push(this.createUserReply(msgStr, ""));
     console.log("Geting message");
     let p = new Promise((resolve) =>{
       this.api.get(this.endpoint, {"input": msgStr,
                                     "cs": chatId}).subscribe((data) => {
                                       console.log("Testing api get");
                                       this.chatId = data["cs"];
-                                      resolve(this.createCleverbotReply(data["output"]));
+                                      resolve(this.createCleverbotReply(data["output"], this.chatId));
                                     });
     });
     return p;
@@ -71,15 +71,15 @@ export class ChatbotInterfaceProvider {
   getChatId():String {
     return this.chatId;
   }
-  private createCleverbotReply(message: String): Message{
-    return this.createReply("CleverBot", message);
+  private createCleverbotReply(message: String, chatId:String): Message{
+    return this.createReply("CleverBot", message, chatId);
   }
 
-  private createUserReply(message: String):Message {
-    return this.createReply("User", message);
+  private createUserReply(message: String, chatId:String):Message {
+    return this.createReply("User", message, chatId);
   }
 
-  private createReply(name: String, content: String):Message {
+  private createReply(name: String, content: String, chatId:String):Message {
     return new Message({"name": name,
             "content": content});
   }

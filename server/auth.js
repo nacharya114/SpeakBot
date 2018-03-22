@@ -3,7 +3,7 @@ require('firebase/auth');
 require('firebase/database');
 // Initialize Firebase for the application
 var config = {
-    // apiKey: process.env.apiKey,
+    apiKey: process.env.firebaseApiKey,
     // authDomain: process.env.authDomain,
     databaseURL: process.env.databaseURL,
     // storageBucket: process.env.storageBucket,

@@ -79,6 +79,7 @@ export class ChatPage {
        this.chatbotInterface.sendMessage(msg,this.chatId)
         .then((message)=> {
           this.currentMessages.push(message);
+          this.chatId = this.chatbotInterface.getChatId();
           this.scrollToBottom();
           this.text2speech.speak(message.content).catch(error => {});
         });
