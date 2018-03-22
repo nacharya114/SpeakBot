@@ -17,6 +17,8 @@ var userTable = database.ref('users');
 module.exports = {
   isValidUser: function(username, password) {
     var userResults = userTable.orderByChild("username").equalTo(username);
+    console.log("auth.js\\"+ "user results table:");
+    console.log(userResults);
     if (!userResults) {
       return false;
     }
