@@ -57,18 +57,17 @@ app.post('/login', (req, res)=> {
     var account = req.body;
 
     if (account) {
-        user = auth.isValidUser(account.username, account.password);
-        console.log(user);
-        if (!user) {
-          res.send({
-            "status": "Error",
-            "detail": "User not found"
+        auth.isValidUser(account.username, account.password)
+          .then((user) => {
+            console.log(user);
+            res.send({"status": "Success",
+                      "user": user});
+          }, (err) =>{
+              res.send({
+                "status": "Error",
+                "detail": "User not found"
+              });
           });
-        } else {
-          res.send({"status": "Success"});
-        }
-    } else{
-      res.status(400).send("Bad Request");
     }
 });
 
