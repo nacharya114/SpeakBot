@@ -32,7 +32,7 @@ module.exports = {
     console.log("New User ID created.");
     var userData = {
       "username": username,
-      "password": password,
+      "password": pass,
       "userID": newUserId
     }
     userTable.child(newUserId).set(userData);

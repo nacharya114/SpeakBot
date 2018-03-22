@@ -52,21 +52,21 @@ app.get('/chatbot', (req,res) => {
   }
 });
 
-// app.post('/login', (req, res)=> {
-//   //TODO: Create a user database in firebase/GCP/
-//     let account = req.body;
-//
-//     if (account) {
-//
-//     }
-// });
-//
-// app.post('/signup', (req, res)=> {
-//     let newAccount = req.body;
-//     console.log(newAccount);
-//     var user = auth.addUser(newAccount.username, newAccount.password);
-//     res.send(user);
-// });
+app.post('/login', (req, res)=> {
+  //TODO: Create a user database in firebase/GCP/
+    let account = req.body;
+
+    if (account) {
+
+    }
+});
+
+app.post('/signup', (req, res)=> {
+    let newAccount = req.body;
+    console.log(newAccount);
+    var user = auth.addUser(newAccount.username, newAccount.password);
+    res.send(user);
+});
 
 
 
