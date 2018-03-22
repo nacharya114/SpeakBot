@@ -24,6 +24,7 @@ app.use(function(req,res,next){
 });
 
 app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: false }));
 
 app.get("/", (req, res) =>{
   res.send("hello");
@@ -62,8 +63,9 @@ app.post('/login', (req, res)=> {
 });
 
 app.post('/signup', (req, res)=> {
-    let newAccount = req.body;
+    var newAccount = req.body;
     console.log(newAccount);
+    // res.send(newAccount);
     var user = auth.addUser(newAccount.username, newAccount.password);
     res.send(user);
 });
