@@ -7,35 +7,39 @@ page-list-master {
 .botmessage{
   border-radius: 20px;
   float: left;
-  position: relative;
-//  max-width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+//  position: relative;
+//  max-width: 80%;
 }
-/*.botmessage:before{
+/*.botmessage::before{
   content: "\00a0";
   display: block;
-  height: 25px;
-  width: 25px;
+  height: 16px;
+  width: 9px;
   position: absolute;
   bottom: -7.5px;
-  left: 20px;
+  left: 10px;
   -webkit-transform: rotate(70deg) skew(5deg);
 }*/
 
 .usermessage{
   border-radius: 20px;
   float: right;
-  position: relative;
+  padding-left: 10px;
+  padding-right: 10px;
+//  position: relative;
 //  max-width: 80%;
 
 }
-/*.usermessage:before{
+/*.usermessage::before{
   content: "\00a0";
   display: block;
-  height: 25px;
-  width: 25px;
+  height: 16px;
+  width: 9px;
   position: absolute;
   bottom: -7.5px;
-  right: 20px;
+  right: 10px;
   -webkit-transform: rotate(118deg) skew(-5deg);
 }*/
 
