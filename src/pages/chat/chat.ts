@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { IonicPage, ModalController, NavController } from 'ionic-angular';
+import { IonicPage, ModalController, NavController, ActionSheetController } from 'ionic-angular';
 
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
@@ -8,6 +8,7 @@ import { Message } from '../../models/message';
 // import { Messages } from '../../providers/providers';
 import { ChatbotInterfaceProvider } from '../../providers/chatbot-interface/chatbot-interface'
 import { Content } from 'ionic-angular';
+import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions';
 
 @IonicPage()
 @Component({
@@ -21,10 +22,12 @@ export class ChatPage {
   speechList: Array<string> = [];
   userInput: String = "";
   chatId: String = "";
+  currentLanguage: "en-EN";
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech,
-    private speech: SpeechRecognition, _zone: NgZone) {
+    private speech: SpeechRecognition, _zone: NgZone, public lsActionSheet: ActionSheetController,
+    private pageTrans:NativePageTransitions) {
   this._zone = _zone;
   this.currentMessages = this.chatbotInterface.getChatMessages();
   }
@@ -55,15 +58,53 @@ export class ChatPage {
   //   catch(e){}
   //
   // }
+  presentLanguageActionSheet() {
+    alert("function is called");
+    let actionSheet = this.lsActionSheet.create({
+      title: 'Select a Language',
+      buttons: [
+        {
+          text: 'English',
+          handler: () => {
+            console.log('English clicked');
+            this.currentLanguage = "en-EN";
+            alert("English Button works");
+          }
+        },
+        {
+          text: 'Language 2',
+          handler: () => {
+            console.log('Button 2 clicked');
+          }
+        },
+        {
+          text: 'Language 3',
+          handler: () => {
+            console.log('Button 3 clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+  backToLogin(){
+    let options: NativeTransitionOptions = {
+      direction: 'right',
+      duration: 400,
+      slowdownfactor: -1,
+      iosdelay: 50
+    }
+    this.pageTrans.slide(options);
+    this.navCtrl.setRoot('LoginPage');
+  }
  listen():Promise<String> {
    let p = new Promise<String>(resolve => {
-     this.speech.startListening({"language": "en-EN"}).subscribe(data =>{
+     this.speech.startListening({"language": this.currentLanguage}).subscribe(data =>{
         resolve(data[0]);
      });
    });
    return p;
  }
-
  ionViewDidEnter(){ //adding these too in an attempt to add auto scrolling -g 3/20
      this.content.scrollToBottom(300);//300ms animation speed
  }

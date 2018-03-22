@@ -27,11 +27,10 @@
           <button ion-button color="secondary" block>{{ 'LOGIN_BUTTON' | translate }}</button>
         </div>
 
-        <div padding>
-          <button ion-button color="secondary" block (click)="slideToChat">{{ 'SKIP' | translate }}</button>
-        </div>
-
       </ion-list>
     </form>
+    <div padding>
+      <button ion-button center color="secondary" block (click)="slideToChat()">SKIP</button>
+    </div>
 </ion-row>
 </ion-content>

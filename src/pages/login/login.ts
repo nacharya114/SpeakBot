@@ -42,7 +42,7 @@ export class LoginPage {
       iosdelay: 50
     }
     this.pageTrans.slide(options);
-    this.navCtrl.setRoot('ChatPage')
+    this.navCtrl.setRoot('ChatPage');
   }
   // Attempt to login in through our User service
   doLogin() {

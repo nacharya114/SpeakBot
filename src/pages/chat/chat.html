@@ -1,10 +1,13 @@
 <ion-header>
 
   <ion-navbar>
+    <button ion-button icon-only (click)="backToLogin()">
+      <ion-icon name="arrow-round-back"></ion-icon>
+    </button>
     <ion-title>Chat</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only>
-        <ion-icon name="gear"></ion-icon>
+      <button ion-button icon-only (click)="presentLanguageActionSheet()">
+        <ion-icon name="cog"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -33,6 +36,6 @@
 
 </ion-content>
 
-<ion-fab bottom center>
+<ion-fab bottom center color="secondary">
   <button ion-fab (click) = "sendMessage()"><ion-icon name="mic"></ion-icon></button>
 </ion-fab>
