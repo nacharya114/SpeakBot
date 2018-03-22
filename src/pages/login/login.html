@@ -1,6 +1,6 @@
 
 <ion-content class="background">
-  <ion-row align-items-center style="height: 100%">
+  <ion-row align-items-center style="height: 50%">
     <form (submit)="doLogin()">
       <ion-list>
 
@@ -29,8 +29,8 @@
 
       </ion-list>
     </form>
-    <div padding>
-      <button ion-button center color="secondary" block (click)="slideToChat()">SKIP</button>
-    </div>
-</ion-row>
+    <ion-col align-items-center>
+      <button ion-button color="secondary" block (click)="slideToChat()">SKIP</button>
+    </ion-col>
+  </ion-row>
 </ion-content>

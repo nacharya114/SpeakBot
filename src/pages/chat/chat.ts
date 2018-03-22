@@ -59,7 +59,6 @@ export class ChatPage {
   //
   // }
   presentLanguageActionSheet() {
-    alert("function is called");
     let actionSheet = this.lsActionSheet.create({
       title: 'Select a Language',
       buttons: [
@@ -68,7 +67,7 @@ export class ChatPage {
           handler: () => {
             console.log('English clicked');
             this.currentLanguage = "en-EN";
-            alert("English Button works");
+            alert("Language Changed to English");
           }
         },
         {
