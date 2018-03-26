@@ -41,15 +41,22 @@ module.exports = {
     }
   },
   getMessages: function(chatID) {
-    chatDB.child(chatID).orderByChild('interaction_count')
-      .once('value').then((data) => {
-        msglist = [];
-        dataObj = Object.keys(data.val());
-        for(var i = 0; i < dataObj.length; i++) {
-          raw_data =data.val()[dataObj[i]];
-          //TODO: Finish this later. need to return new MEssage(name, content)
-          msglist.push()
-        }
-      });
+    var p = new Promise((resolve, reject)=> {
+      chatDB.child(chatID).orderByChild('interaction_count')
+        .once('value').then((data) => {
+          msglist = [];
+          dataObj = Object.keys(data.val());
+          for(var i = 0; i < dataObj.length; i++) {
+            raw_data =data.val()[dataObj[i]];
+            //TODO: Finish this later. need to return new MEssage(name, content)
+            raw_data['name'] = raw_data['sender'];
+            msglist.push(raw_data);
+          }
+          resolve(msglist);
+        });
+
+      //Forget about this until translation is done
+    });
+    return p;
   }
 }

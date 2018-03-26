@@ -45,8 +45,9 @@ app.post('/chatbot', (req,res) => {
     cbot.query(input, {
       cs: chatState
     }).then((cres) =>{
-      var cObj = { output: cres.output,
-                   cs    : cres.cs};
+      var cObj = { 'output': cres.output,
+                   'cs'    : cres.cs,
+                    'chatID': cres.conversation_id };
       if (userId) {
           chatDB.saveMessage(cres.conversation_id, userId, input, cres.output);
           if (!chatState) {
@@ -63,7 +64,12 @@ app.post('/chatbot', (req,res) => {
 
 app.get('/chatbot', (req, res) => {
   chatID = req.query.chatID;
-
+  chatDB.getMessages(chatID).then((msgs) => {
+    res.send({
+      "status": "success",
+      "messages": msgs
+    });
+  });
 });
 
 app.post('/login', (req, res)=> {

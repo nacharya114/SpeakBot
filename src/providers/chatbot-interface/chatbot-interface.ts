@@ -14,12 +14,13 @@ import { User } from '../user/user';
 export class ChatbotInterfaceProvider {
   endpoint = "chatbot";
   messages: Message[];
-  chatId: String;
+  chatID: String;
+  chatState: String;
 
 
   constructor(public http: HttpClient, public api: Api, private user: User) {
     console.log('Hello ChatbotInterfaceProvider Provider');
-    this.messages = [
+    this.getChatMessages();
       // {
       //   "name": "CleverBot",
       //   "content": "Hello!",
@@ -44,47 +45,54 @@ export class ChatbotInterfaceProvider {
       //   "name": "User",
       //   "content": "What is the weather today",
       // }
-    ];
   }
 
   getChatMessages(){
-    return this.messages;
+    if (this.user._isLoggedIn()) {
+      this.api.get(this.endpoint, this.getChatId()).subscribe((data)=> {
+        data['messages'].forEach((message)=> {
+          this.messages.push(this.createReply(message.name, message.content, ""));
+        });
+      });
+    }
   }
 
-  sendMessage(msgStr: String, chatId: String): Promise<Message> {
+  sendMessage(msgStr: String, chatState: String): Promise<Message> {
     this.messages.push(this.createUserReply(msgStr, ""));
     console.log("Geting message");
     let p = new Promise((resolve) =>{
       var params = {"input": msgStr,
-            "cs": chatId};
+            "cs": chatState};
       if (this.user._isLoggedIn()) {
         params['userID'] = this.user.getUser()['userID'];
       }
       this.api.post(this.endpoint, params).subscribe((data) => {
-                                      console.log("Testing api get");
-                                      this.chatId = data["cs"];
-                                      resolve(this.createCleverbotReply(data["output"], this.chatId));
+                                      this.chatState = data["cs"];
+                                      if (this.chatID == null) {
+                                        this.chatID = data['chatID'];
+                                      }
+                                      resolve(this.createCleverbotReply(data["output"], this.chatState));
                                     });
     });
     return p;
   }
 
   hasChatId():boolean {
-    return (this.chatId ? true : false);
+    return (this.chatID ? true : false);
   }
 
   getChatId():String {
-    return this.chatId;
+    return this.user.getUser['chatID'];
   }
-  private createCleverbotReply(message: String, chatId:String): Message{
-    return this.createReply("CleverBot", message, chatId);
-  }
-
-  private createUserReply(message: String, chatId:String):Message {
-    return this.createReply("User", message, chatId);
+  private createCleverbotReply(message: String, chatID:String): Message{
+    return this.createReply("CleverBot", message, chatID);
   }
 
-  private createReply(name: String, content: String, chatId:String):Message {
+  private createUserReply(message: String, chatID:String):Message {
+    return this.createReply("User", message, chatID);
+  }
+
+  private createReply(name: String, content: String, chatID:String):Message {
     return new Message({"name": name,
             "content": content});
   }

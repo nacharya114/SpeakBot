@@ -13,7 +13,7 @@ module.exports = {
         isValid = data.forEach((user) => {
           if (user.child("password").exists()) {
             if (user.child("password").val() == password) {
-              console.log(user);
+              console.log(user.val());
               resolve(user.val());
               return true;
             }
