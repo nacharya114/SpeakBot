@@ -4,4 +4,7 @@ env: flex
 network:
   forwarded_ports:
     - 3000/tcp
+env_variables:
+  firebaseApiKey: "AIzaSyA7RUGumjatLW6RNqx9Za0fRb4eCdcKIcY"
+  databaseURL: "https://speakbot-197821.firebaseio.com/"
 # [END app_yaml]

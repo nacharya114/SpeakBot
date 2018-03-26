@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class Api {
-  url: string = 'https://speakbot-197821.appspot.com';
+  url: string = 'http://speakbot-197821.appspot.com';
+
 
   constructor(public http: HttpClient) {
   }

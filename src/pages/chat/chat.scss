@@ -6,15 +6,42 @@ page-list-master {
 
 .botmessage{
   border-radius: 20px;
-  float: right;
-  //color: color($colors, secondary)
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px;
+//  position: relative;
+//  max-width: 80%;
 }
+/*.botmessage::before{
+  content: "\00a0";
+  display: block;
+  height: 16px;
+  width: 9px;
+  position: absolute;
+  bottom: -7.5px;
+  left: 10px;
+  -webkit-transform: rotate(70deg) skew(5deg);
+}*/
 
 .usermessage{
   border-radius: 20px;
   float: right;
+  padding-left: 10px;
+  padding-right: 10px;
+//  position: relative;
+//  max-width: 80%;
 
 }
+/*.usermessage::before{
+  content: "\00a0";
+  display: block;
+  height: 16px;
+  width: 9px;
+  position: absolute;
+  bottom: -7.5px;
+  right: 10px;
+  -webkit-transform: rotate(118deg) skew(-5deg);
+}*/
 
 .textInput{
   border-radius: 10px;
