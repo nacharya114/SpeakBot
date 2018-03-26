@@ -76,7 +76,8 @@ app.post('/signup', (req, res)=> {
     console.log(newAccount);
     // res.send(newAccount);
     var user = auth.addUser(newAccount.username, newAccount.password);
-    res.send(user);
+    res.send({"status": "success",
+              "user": user});
 });
 
 
