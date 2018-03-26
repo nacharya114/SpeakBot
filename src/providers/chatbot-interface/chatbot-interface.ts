@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Api } from '../api/api';
-import { Message } from '../../models/message'
+import { Message } from '../../models/message';
+import { User } from '../user/user';
 
 /*
   Generated class for the ChatbotInterfaceProvider provider.
@@ -16,7 +17,7 @@ export class ChatbotInterfaceProvider {
   chatId: String;
 
 
-  constructor(public http: HttpClient, public api: Api) {
+  constructor(public http: HttpClient, public api: Api, private user: User) {
     console.log('Hello ChatbotInterfaceProvider Provider');
     this.messages = [
       // {
@@ -54,8 +55,12 @@ export class ChatbotInterfaceProvider {
     this.messages.push(this.createUserReply(msgStr, ""));
     console.log("Geting message");
     let p = new Promise((resolve) =>{
-      this.api.get(this.endpoint, {"input": msgStr,
-                                    "cs": chatId}).subscribe((data) => {
+      var params = {"input": msgStr,
+            "cs": chatId};
+      if (this.user._isLoggedIn()) {
+        params['userID'] = this.user.getUser()['userID'];
+      }
+      this.api.post(this.endpoint, params).subscribe((data) => {
                                       console.log("Testing api get");
                                       this.chatId = data["cs"];
                                       resolve(this.createCleverbotReply(data["output"], this.chatId));

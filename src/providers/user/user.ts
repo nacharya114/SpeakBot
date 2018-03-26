@@ -81,4 +81,15 @@ export class User {
   _loggedIn(resp) {
     this._user = resp.user;
   }
+
+  getUser() {
+    return this._user;
+  }
+
+  _isLoggedIn() {
+    if (this._user) {
+      return true;
+    }
+    return false;
+  }
 }

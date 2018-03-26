@@ -7,6 +7,7 @@ const Cleverbot = require('cleverbot');
 var cbot = new Cleverbot({key: "CC7i1plOP5-fomRyfjyWM33QSkg"});
 
 var auth = require('./auth');
+var chatDB = require('./chatDB');
 
 var port = process.env.PORT || 3000;
 
@@ -32,24 +33,37 @@ app.get("/", (req, res) =>{
 
 /*this ignores conversation history
 and just sends each message as a new conversation */
-app.get('/chatbot', (req,res) => {
+app.post('/chatbot', (req,res) => {
 
-  input = req.query.input;
-  chatId = req.query.cs;
+  input = req.body.input;
+  chatState = req.body.cs;
+  userId = req.body.userID;
 
   if (input) {
     // res.send("Your input was:" + input);
 
     cbot.query(input, {
-      cs: chatId
+      cs: chatState
     }).then((cres) =>{
       var cObj = { output: cres.output,
-                   cs    : cres.cs}
+                   cs    : cres.cs};
+      if (userID) {
+          chatDB.saveMessage(cres.conversation_id, userId, input, cres.output);
+          if (!chatState) {
+            auth.updateChatState(userId, cres.cs);
+            auth.updateChatID(userId, cres.conversation_id);
+          }
+      }
       res.json(cObj);
     });
   } else {
     res.send("err");
   }
+});
+
+app.get('/chatbot', (req, res) => {
+  chatID = req.query.chatID;
+
 });
 
 app.post('/login', (req, res)=> {
