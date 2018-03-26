@@ -47,7 +47,7 @@ app.post('/chatbot', (req,res) => {
     }).then((cres) =>{
       var cObj = { output: cres.output,
                    cs    : cres.cs};
-      if (userID) {
+      if (userId) {
           chatDB.saveMessage(cres.conversation_id, userId, input, cres.output);
           if (!chatState) {
             auth.updateChatState(userId, cres.cs);
@@ -76,9 +76,11 @@ app.post('/login', (req, res)=> {
             console.log(user);
             res.send({"status": "success",
                       "user": user});
-          }, (err) =>{
+          },
+          //TODO: Give more detail for error messages
+          (err) =>{
               res.send({
-                "status": "Error",
+                "status": "error",
                 "detail": "User not found"
               });
           });
