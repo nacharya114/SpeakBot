@@ -60,7 +60,7 @@ app.post('/login', (req, res)=> {
         auth.isValidUser(account.username, account.password)
           .then((user) => {
             console.log(user);
-            res.send({"status": "Success",
+            res.send({"status": "success",
                       "user": user});
           }, (err) =>{
               res.send({
