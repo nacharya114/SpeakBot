@@ -13,14 +13,25 @@ import { User } from '../user/user';
 @Injectable()
 export class ChatbotInterfaceProvider {
   endpoint = "chatbot";
-  messages: Message[];
+  messages: Array<Message> = [];
   chatID: String;
   chatState: String;
 
 
   constructor(public http: HttpClient, public api: Api, private user: User) {
     console.log('Hello ChatbotInterfaceProvider Provider');
-    this.getChatMessages();
+    this.getChatMessages().then((msg)=> {
+      console.log("Got messages");
+    },
+  ()=> {
+    console.log("Error, couldnt get messages");
+  });
+    // this.getChatMessages().then((msglist)=> {
+    //   this.messages = msglist;
+    // },
+    // ()=>{
+    //   this.messages = [];
+    // });
       // {
       //   "name": "CleverBot",
       //   "content": "Hello!",
@@ -48,13 +59,30 @@ export class ChatbotInterfaceProvider {
   }
 
   getChatMessages(){
-    if (this.user._isLoggedIn()) {
-      this.api.get(this.endpoint, this.getChatId()).subscribe((data)=> {
-        data['messages'].forEach((message)=> {
-          this.messages.push(this.createReply(message.name, message.content, ""));
+    var p = new Promise<Message[]>((resolve, reject) => {
+      if (this.user._isLoggedIn()) {
+        console.log("User ID:" + this.user.getUser()['chatID']);
+        var params = {
+          "chatID": this.user.getUser()["chatID"]
+        };
+        this.api.get(this.endpoint, params).subscribe((data)=> {
+          // let msg: any;
+        console.log(data);
+        this.messages = [];
+        for (let msg of data["messages"]) {
+          console.log(msg);
+          this.messages.push(this.createReply(msg['name'], msg['content'], ""));
+        }
+          resolve(this.messages);
+          console.log("Message list recieved");
+          console.log(this.messages);
         });
-      });
-    }
+      } else {
+        console.log("Message promise rejected");
+        reject();
+      }
+    });
+    return p;
   }
 
   sendMessage(msgStr: String, chatState: String): Promise<Message> {
@@ -82,7 +110,7 @@ export class ChatbotInterfaceProvider {
   }
 
   getChatId():String {
-    return this.user.getUser['chatID'];
+    return this.user.getUser()['chatID'];
   }
   private createCleverbotReply(message: String, chatID:String): Message{
     return this.createReply("CleverBot", message, chatID);

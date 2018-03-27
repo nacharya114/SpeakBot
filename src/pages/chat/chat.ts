@@ -29,7 +29,9 @@ export class ChatPage {
     private speech: SpeechRecognition, _zone: NgZone, public lsActionSheet: ActionSheetController,
     private pageTrans:NativePageTransitions) {
   this._zone = _zone;
-  this.currentMessages = this.chatbotInterface.getChatMessages();
+  this.chatbotInterface.getChatMessages().then((data) => {
+    this.currentMessages = data;
+  });
   }
 
   // listenForSpeech() {
@@ -106,6 +108,14 @@ export class ChatPage {
  }
  ionViewDidEnter(){ //adding these too in an attempt to add auto scrolling -g 3/20
      this.content.scrollToBottom(300);//300ms animation speed
+ }
+
+ ionViewWillEnter() {
+   console.log("Will enter chat.ts");
+   this.chatbotInterface.getChatMessages().then((msgs) => {
+     this.currentMessages = msgs;
+     console.log("chat.ts\\ " + this.currentMessages);
+   });
  }
  scrollToBottom(){
          setTimeout(() => {

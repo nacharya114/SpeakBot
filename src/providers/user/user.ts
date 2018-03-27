@@ -80,6 +80,7 @@ export class User {
    */
   _loggedIn(resp) {
     this._user = resp.user;
+    alert(resp.user.username + ", you are now logged in");
   }
 
   getUser() {
@@ -88,6 +89,7 @@ export class User {
 
   _isLoggedIn() {
     if (this._user) {
+      console.log(this._user.username + " is logged in.");
       return true;
     }
     return false;

@@ -64,6 +64,10 @@ app.post('/chatbot', (req,res) => {
 
 app.get('/chatbot', (req, res) => {
   chatID = req.query.chatID;
+  if (!chatID) {
+    res.send({"status": "error"});
+    return;
+  }
   chatDB.getMessages(chatID).then((msgs) => {
     res.send({
       "status": "success",

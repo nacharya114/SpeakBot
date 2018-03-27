@@ -21,13 +21,13 @@
   <ion-grid>
     <ion-row *ngFor="let message of currentMessages">
         <div col-9>
-          <button class="botmessage" *ngIf="message.name === 'CleverBot'" ion-item text-wrap (click)="playSpeech($event, message)" color="primary">
+          <button class="botmessage" *ngIf="message.name === 'CleverBot' || message.name === 'Cleverbot'" ion-item text-wrap (click)="playSpeech($event, message)" color="primary">
             <h3>{{message.name}}</h3>
             <h2>{{message.content}}</h2>
           </button>
         </div>
         <div col-9 offset-3>
-          <button col-9 class="usermessage"  *ngIf="message.name !== 'CleverBot'" ion-item text-wrap (click)="playSpeech($event, message)" color="secondary">
+          <button col-9 class="usermessage"  *ngIf="message.name !== 'CleverBot' || message.name !== 'Cleverbot'" ion-item text-wrap (click)="playSpeech($event, message)" color="secondary">
             <h3>{{message.name}}</h3>
             <h2>{{message.content}}</h2>
           </button>
