@@ -69,7 +69,9 @@ app.get('/chatbot', (req, res) => {
     res.send({"status": "error"});
     return;
   }
-
+  if (!target_lang) {
+    target_lang = "en";
+  }
     chatDB.getMessages(chatID, target_lang).then((msgs) => {
       res.send({
         "status": "success",

@@ -61,18 +61,25 @@ module.exports = {
             raw_data =data.val()[dataObj[i]];
             //TODO: Finish this later. need to return new MEssage(name, content)
             raw_data['name'] = raw_data['sender'];
-            if (target) {
-              translate.translate(raw_data['content'], target)
-                .then((data) => {
-                  var translation = data[0];
-                  raw_data['content'] = translation;
-                  msglist.push(raw_data);
-                });
-            } else {
-              msglist.push(raw_data)
-            }            
+            msglist.push(raw_data);
           }
-          resolve(msglist);
+          final_list = [];
+          console.log("Got messages, now translating");
+          msglist.forEach(function(message, index) {
+            translate.translate(message['content'], target).then((result) => {
+              console.log("Translation done for message#" + index);
+              var translation = result[0];
+              message['content'] = translation;
+              final_list[index] = message;
+              if (final_list.length == msglist.length) {
+                console.log("Finished translations");
+                console.log(final_list);
+                resolve(final_list);
+              }
+            }, (err) => {
+              console.log(err);
+            });
+          });
         });
 
       //Forget about this until translation is done
