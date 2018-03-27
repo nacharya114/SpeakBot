@@ -64,16 +64,23 @@ app.post('/chatbot', (req,res) => {
 
 app.get('/chatbot', (req, res) => {
   chatID = req.query.chatID;
+  target_lang = req.query.lang;
   if (!chatID) {
     res.send({"status": "error"});
     return;
   }
-  chatDB.getMessages(chatID).then((msgs) => {
-    res.send({
-      "status": "success",
-      "messages": msgs
+
+    chatDB.getMessages(chatID, target_lang).then((msgs) => {
+      res.send({
+        "status": "success",
+        "messages": msgs
+      });
     });
-  });
+
+});
+
+app.get('/chatbot/:lang', (req,res)=> {
+
 });
 
 app.post('/login', (req, res)=> {

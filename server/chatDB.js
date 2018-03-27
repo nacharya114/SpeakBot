@@ -4,6 +4,17 @@ var database = firebase.database();
 var chatDB = database.ref('chats');
 var users = database.ref('users');
 
+const Translate = require('@google-cloud/translate');
+
+// Your Google Cloud Platform project ID
+const projectId = 'speakbot-197821';
+
+// Instantiates a client
+const translate = new Translate({
+  'projectId': projectId,
+});
+
+
 module.exports = {
   saveMessage: function(chatID, userID, content, response) {
     message = {
@@ -40,7 +51,7 @@ module.exports = {
         });
     }
   },
-  getMessages: function(chatID) {
+  getMessages: function(chatID, target) {
     var p = new Promise((resolve, reject)=> {
       chatDB.child(chatID).orderByChild('interaction_count')
         .once('value').then((data) => {
@@ -50,7 +61,16 @@ module.exports = {
             raw_data =data.val()[dataObj[i]];
             //TODO: Finish this later. need to return new MEssage(name, content)
             raw_data['name'] = raw_data['sender'];
-            msglist.push(raw_data);
+            if (target) {
+              translate.translate(raw_data['content'], target)
+                .then((data) => {
+                  var translation = data[0];
+                  raw_data['content'] = translation;
+                  msglist.push(raw_data);
+                });
+            } else {
+              msglist.push(raw_data)
+            }            
           }
           resolve(msglist);
         });
