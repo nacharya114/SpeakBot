@@ -4,12 +4,13 @@ import { IonicPage, NavController, ToastController } from 'ionic-angular';
 
 import { User } from '../../providers/providers';
 import { MainPage } from '../pages';
-import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions';
+import { NativePageTransitions, NativeTransitionOptions } from '@ionic-native/native-page-transitions';
+
 
 @IonicPage()
 @Component({
   selector: 'page-login',
-  templateUrl: 'login.html'
+  templateUrl: 'login.html',
 })
 export class LoginPage {
   // The account fields for the login form.
@@ -31,6 +32,7 @@ export class LoginPage {
 
     this.translateService.get('LOGIN_ERROR').subscribe((value) => {
       this.loginErrorString = value;
+
     })
   }
 
