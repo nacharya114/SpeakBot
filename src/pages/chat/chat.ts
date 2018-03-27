@@ -22,7 +22,7 @@ export class ChatPage {
   speechList: Array<string> = [];
   userInput: String = "";
   chatId: String = "";
-  currentLanguage: "en-EN";
+  currentLanguage = "en-EN";
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech,
@@ -71,15 +71,19 @@ export class ChatPage {
           }
         },
         {
-          text: 'Language 2',
+          text: 'Français',
           handler: () => {
-            console.log('Button 2 clicked');
+            console.log('French clicked');
+            this.currentLanguage = "fr-FR";
+            alert("Language Changed to French");
           }
         },
         {
-          text: 'Language 3',
+          text: 'Deutsch',
           handler: () => {
-            console.log('Button 3 clicked');
+            console.log('German clicked');
+            this.currentLanguage = "de-DE";
+            alert("Language Changed to German");
           }
         }
       ]

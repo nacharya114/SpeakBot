@@ -52,9 +52,9 @@ export class ChatbotInterfaceProvider {
 
   sendMessage(msgStr: String, chatId: String): Promise<Message> {
     this.messages.push(this.createUserReply(msgStr, ""));
-    console.log("Geting message");
+    console.log("Getting message");
     let p = new Promise((resolve) =>{
-      this.api.get(this.endpoint, {"input": msgStr,
+      this.api.post(this.endpoint, {"input": msgStr,
                                     "cs": chatId}).subscribe((data) => {
                                       console.log("Testing api get");
                                       this.chatId = data["cs"];
