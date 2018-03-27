@@ -71,7 +71,7 @@ module.exports = {
               var translation = result[0];
               message['content'] = translation;
               final_list[index] = message;
-              if (final_list.length == msglist.length) {
+              if (final_list.length == msglist.length && !(final_list.includes(null))) {
                 console.log("Finished translations");
                 console.log(final_list);
                 resolve(final_list);
