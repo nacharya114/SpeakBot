@@ -34,12 +34,13 @@ module.exports = {
           } else {
             msglist = data.val();
             ic = msglist[Object.keys(msglist)[0]];
-            console.log(msglist[Object.keys(msglist)[0]]);
             ic = ic['interaction_count'];
             message['interaction_count'] = ic + 1;
           }
           newmsg = chatDB.child(chatID).push().key;
           message['msgID'] = newmsg;
+          console.log("Saving message:");
+          console.log(message);
           chatDB.child(chatID).child(newmsg).set(message);
 
           message['sender'] = "Cleverbot";
@@ -47,6 +48,8 @@ module.exports = {
           newmsg = chatDB.child(chatID).push().key;
           message['msgID'] = newmsg;
           message['content'] = response;
+          console.log("Saving message:");
+          console.log(message);
           chatDB.child(chatID).child(newmsg).set(message);
         });
     }

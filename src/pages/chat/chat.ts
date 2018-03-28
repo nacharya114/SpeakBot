@@ -75,7 +75,7 @@ export class ChatPage {
               "language": "en",
               "locale": "en-US"
             };
-            this.changeChatLanguage("en");
+            this.changeChatLanguage();
           }
         },
         {
@@ -84,7 +84,7 @@ export class ChatPage {
             console.log('Francais clicked');
             this.currentLanguage.language = "fr";
             this.currentLanguage.locale = "fr-FR";
-            this.changeChatLanguage("fr");
+            this.changeChatLanguage();
           }
         },
         {
@@ -98,11 +98,12 @@ export class ChatPage {
     actionSheet.present();
   }
 
-  changeChatLanguage(lang) {
-    this.currentLanguage = lang;
+  changeChatLanguage() {
     this._zone.run(() => {
       this.chatbotInterface.getChatMessages(this.currentLanguage.language)
         .then((msgs) => {
+          console.log("Changed language:");
+          console.log(msgs);
            this.currentMessages = msgs;
         });
     });
