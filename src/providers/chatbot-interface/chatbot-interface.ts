@@ -83,5 +83,4 @@ export class ChatbotInterfaceProvider {
     return new Message({"name": name,
             "content": content});
   }
-
 }

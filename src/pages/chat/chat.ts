@@ -22,7 +22,10 @@ export class ChatPage {
   speechList: Array<string> = [];
   userInput: String = "";
   chatId: String = "";
-  currentLanguage = "en-EN";
+  currentLanguage = {
+    language: "en",
+    locale:  "en-EN"
+  };
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech,
@@ -31,33 +34,6 @@ export class ChatPage {
   this._zone = _zone;
   this.currentMessages = this.chatbotInterface.getChatMessages();
   }
-
-  // listenForSpeech() {
-  //   try{
-  //     const permission = await this.speech.hasPermission();
-  //     console.log(permission);
-  //     if(permission){
-  //       //specified for english atm
-  //       this.speech.startListening({"language": "en-EN"}).subscribe(
-  //       data =>
-  //         {this.speechList = data;
-  //           this.userInput = this.speechList[0];
-  //           this.chatbotInterface.sendMessage(this.userInput, this.chatId)
-  //           .then((data) => {
-  //             this.currentMessages.push(data);
-  //           });
-  //           if ((!this.chatId.length) && this.chatbotInterface.hasChatId()){
-  //             this.chatId = this.chatbotInterface.getChatId();
-  //           }
-  //           this.bottomScroll();
-  //     }, error => console.log(error));
-  //     }else{
-  //       this.speech.requestPermission();
-  //     }
-  //   }
-  //   catch(e){}
-  //
-  // }
   presentLanguageActionSheet() {
     let actionSheet = this.lsActionSheet.create({
       title: 'Select a Language',
@@ -66,7 +42,8 @@ export class ChatPage {
           text: 'English',
           handler: () => {
             console.log('English clicked');
-            this.currentLanguage = "en-EN";
+            this.currentLanguage.language = "en";
+            this.currentLanguage.locale = "en-EN";
             alert("Language Changed to English");
           }
         },
@@ -74,7 +51,8 @@ export class ChatPage {
           text: 'Français',
           handler: () => {
             console.log('French clicked');
-            this.currentLanguage = "fr-FR";
+            this.currentLanguage.language = "fr";
+            this.currentLanguage.locale = "fr-FR";
             alert("Language Changed to French");
           }
         },
@@ -82,7 +60,8 @@ export class ChatPage {
           text: 'Deutsch',
           handler: () => {
             console.log('German clicked');
-            this.currentLanguage = "de-DE";
+            this.currentLanguage.language = "de";
+            this.currentLanguage.locale = "de-DE";
             alert("Language Changed to German");
           }
         }
@@ -102,7 +81,7 @@ export class ChatPage {
   }
  listen():Promise<String> {
    let p = new Promise<String>(resolve => {
-     this.speech.startListening({"language": this.currentLanguage}).subscribe(data =>{
+     this.speech.startListening({"language": this.currentLanguage.locale}).subscribe(data =>{
         resolve(data[0]);
      });
    });
@@ -125,7 +104,7 @@ export class ChatPage {
           this.currentMessages.push(message);
           this.chatId = this.chatbotInterface.getChatId();
           this.scrollToBottom();
-          this.text2speech.speak(message.content).catch(error => {});
+          this.text2speech.speak({ text: message.content, locale: this.currentLanguage.locale }).catch(error => {});
         });
      });
    });
@@ -168,6 +147,6 @@ export class ChatPage {
   }
 
   playSpeech(event, message: Message) {
-      this.text2speech.speak(message.content).catch( error => {});
+      this.text2speech.speak({ text: message.content, locale: this.currentLanguage.locale }).catch( error => {});
   }
 }
