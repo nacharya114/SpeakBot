@@ -22,14 +22,17 @@ export class ChatPage {
   speechList: Array<string> = [];
   userInput: String = "";
   chatId: String = "";
-  currentLanguage: "en-EN";
+  currentLanguage = {
+    "language": "en",
+    "locale": "en-US"
+  };
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech,
     private speech: SpeechRecognition, _zone: NgZone, public lsActionSheet: ActionSheetController,
     private pageTrans:NativePageTransitions) {
   this._zone = _zone;
-  this.chatbotInterface.getChatMessages().then((data) => {
+  this.chatbotInterface.getChatMessages(this.currentLanguage.language).then((data) => {
     this.currentMessages = data;
   });
   }
@@ -68,14 +71,20 @@ export class ChatPage {
           text: 'English',
           handler: () => {
             console.log('English clicked');
-            this.currentLanguage = "en-EN";
-            alert("Language Changed to English");
+            this.currentLanguage = {
+              "language": "en",
+              "locale": "en-US"
+            };
+            this.changeChatLanguage("en");
           }
         },
         {
-          text: 'Language 2',
+          text: 'Francais',
           handler: () => {
-            console.log('Button 2 clicked');
+            console.log('Francais clicked');
+            this.currentLanguage.language = "fr";
+            this.currentLanguage.locale = "fr-FR";
+            this.changeChatLanguage("fr");
           }
         },
         {
@@ -87,6 +96,16 @@ export class ChatPage {
       ]
     });
     actionSheet.present();
+  }
+
+  changeChatLanguage(lang) {
+    this.currentLanguage = lang;
+    this._zone.run(() => {
+      this.chatbotInterface.getChatMessages(this.currentLanguage.language)
+        .then((msgs) => {
+           this.currentMessages = msgs;
+        });
+    });
   }
   backToLogin(){
     let options: NativeTransitionOptions = {
@@ -100,7 +119,7 @@ export class ChatPage {
   }
  listen():Promise<String> {
    let p = new Promise<String>(resolve => {
-     this.speech.startListening({"language": this.currentLanguage}).subscribe(data =>{
+     this.speech.startListening({"language": this.currentLanguage.language}).subscribe(data =>{
         resolve(data[0]);
      });
    });
@@ -112,7 +131,7 @@ export class ChatPage {
 
  ionViewWillEnter() {
    console.log("Will enter chat.ts");
-   this.chatbotInterface.getChatMessages().then((msgs) => {
+   this.chatbotInterface.getChatMessages(this.currentLanguage.language).then((msgs) => {
      this.currentMessages = msgs;
      console.log("chat.ts\\ " + this.currentMessages);
    });

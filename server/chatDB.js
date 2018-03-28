@@ -65,13 +65,15 @@ module.exports = {
           }
           final_list = [];
           console.log("Got messages, now translating");
+          indexSize = 0;
           msglist.forEach(function(message, index) {
             translate.translate(message['content'], target).then((result) => {
               console.log("Translation done for message#" + index);
               var translation = result[0];
               message['content'] = translation;
               final_list[index] = message;
-              if (final_list.length == msglist.length && !(final_list.includes(null))) {
+              indexSize++;
+              if (indexSize == msglist.length && !(final_list.includes(null))) {
                 console.log("Finished translations");
                 console.log(final_list);
                 resolve(final_list);

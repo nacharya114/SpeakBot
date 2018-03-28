@@ -20,7 +20,7 @@ export class ChatbotInterfaceProvider {
 
   constructor(public http: HttpClient, public api: Api, private user: User) {
     console.log('Hello ChatbotInterfaceProvider Provider');
-    this.getChatMessages().then((msg)=> {
+    this.getChatMessages("en").then((msg)=> {
       console.log("Got messages");
     },
   ()=> {
@@ -58,12 +58,13 @@ export class ChatbotInterfaceProvider {
       // }
   }
 
-  getChatMessages(){
+  getChatMessages(lang){
     var p = new Promise<Message[]>((resolve, reject) => {
       if (this.user._isLoggedIn()) {
         console.log("User ID:" + this.user.getUser()['chatID']);
         var params = {
-          "chatID": this.user.getUser()["chatID"]
+          "chatID": this.user.getUser()["chatID"],
+          "lang": lang
         };
         this.api.get(this.endpoint, params).subscribe((data)=> {
           // let msg: any;
@@ -113,7 +114,7 @@ export class ChatbotInterfaceProvider {
     return this.user.getUser()['chatID'];
   }
   private createCleverbotReply(message: String, chatID:String): Message{
-    return this.createReply("CleverBot", message, chatID);
+    return this.createReply("Cleverbot", message, chatID);
   }
 
   private createUserReply(message: String, chatID:String):Message {
