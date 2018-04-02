@@ -95,6 +95,8 @@ export class ChatbotInterfaceProvider {
       if (this.user._isLoggedIn()) {
         params['userID'] = this.user.getUser()['userID'];
       }
+      console.log(params);
+      //TODO: Find out why messages aren't saving by comparing REST parameters.
       this.api.post(this.endpoint, params).subscribe((data) => {
                                       this.chatState = data["cs"];
                                       if (this.chatID == null) {
