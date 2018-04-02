@@ -42,6 +42,9 @@ app.post('/chatbot', (req,res) => {
   console.log(chatState);
   console.log(userId);
 
+  //TODO: have conversations primed (make prime.js or .json with url) :
+//  https://www.cleverbot.com/getreply?key=CC8hy0Bny7N8DtVbWrw3EYKGSIQ&input=Posez-moi une question&vtext2=Bonjour&vtext3=Bonjour, cleverbot
+
   if (input) {
     // res.send("Your input was:" + input);
 
