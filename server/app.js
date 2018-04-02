@@ -52,7 +52,7 @@ app.post('/chatbot', (req,res) => {
           chatDB.saveMessage(cres.conversation_id, userId, input, cres.output);
           if (!chatState) {
             auth.updateChatState(userId, cres.cs);
-            auth.updateChatID(userId, cres.conversation_id);
+            //auth.updateChatID(userId, cres.conversation_id);
           }
       }
       res.json(cObj);
