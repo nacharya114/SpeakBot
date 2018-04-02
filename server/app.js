@@ -91,6 +91,7 @@ app.get('/chatbot/:lang', (req,res)=> {
 app.post('/login', (req, res)=> {
   //TODO: Create a user database in firebase/GCP/
     var account = req.body;
+    console.log(account);
 
     if (account) {
         auth.isValidUser(account.username, account.password)
@@ -113,7 +114,7 @@ app.post('/signup', (req, res)=> {
     var newAccount = req.body;
     console.log(newAccount);
     // res.send(newAccount);
-    var user = auth.addUser(newAccount.username, newAccount.password);
+    var user = auth.addUser(newAccount);
     res.send({"status": "success",
               "user": user});
 });

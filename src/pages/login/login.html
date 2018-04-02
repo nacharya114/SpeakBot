@@ -1,6 +1,8 @@
 
-<ion-content class="background">
-  <ion-row align-items-center style="height: 50%">
+<ion-content class="gradient">
+  <ion-row >
+
+    <h2 class="header">Welcome to SpeakBot!</h2>
     <form (submit)="doLogin()">
       <ion-list>
 
@@ -11,6 +13,9 @@
 
 
         Want to use a Username instead of an Email? Here you go: -->
+
+
+
 
         <ion-item class="infoInput">
           <ion-label fixed>{{ 'USERNAME' | translate }}</ion-label>
@@ -24,26 +29,28 @@
         </ion-item>
 
         <div padding>
-          <button ion-button color="secondary" block>{{ 'LOGIN_BUTTON' | translate }}</button>
+          <button ion-button color="secondary" block name="login" value="login">{{ 'LOGIN_BUTTON' | translate }}</button>
         </div>
 
-        <div padding>
-          <button ion-button color="secondary" block>{{ 'SIGNUP_BUTTON' | translate }}</button>
-        </div>
+        <h2 class="header"></h2>
 
-        <ion-item>
-            <ion-label>Choose Language!</ion-label>
-            <ion-select [(ngModel)]="account.language" multiple="false">
+        <ion-item class="infoInput">
+            <ion-label>Language</ion-label>
+            <ion-select [(ngModel)]="account.language" multiple="false" name="lang">
               <ion-option>English</ion-option>
               <ion-option>French</ion-option>
               <ion-option>German</ion-option>
             </ion-select>
           </ion-item>
 
+          <div padding>
+            <button ion-button type="button" color="secondary" block (click)="doSignup()">{{ 'SIGNUP_BUTTON' | translate }}</button>
+          </div>
+
       </ion-list>
     </form>
-    <ion-col align-items-center>
+    <!-- <ion-col align-items-center>
       <button ion-button color="secondary" block (click)="slideToChat()">SKIP</button>
-    </ion-col>
+    </ion-col> -->
   </ion-row>
 </ion-content>

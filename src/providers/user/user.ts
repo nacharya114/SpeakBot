@@ -36,17 +36,23 @@ export class User {
   login(accountInfo: any) {
     let seq = this.api.post('login', accountInfo).share();
 
-    seq.subscribe((res: any) => {
-      // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        this._loggedIn(res);
-      } else {
-      }
-    }, err => {
-      console.error('ERROR', err);
+    let p = new Promise((resolve, reject)=> {
+      seq.subscribe((res: any) => {
+        // If the API returned a successful response, mark the user as logged in
+        if (res.status == 'success') {
+          this._loggedIn(res);
+          resolve(res);
+        } else if (res.status == 'error'){
+          this.logout();
+          reject(res);
+        }
+      }, err => {
+        console.error('ERROR', err);
+        reject(err);
+      });
     });
 
-    return seq;
+    return p;
   }
 
   /**
@@ -56,16 +62,24 @@ export class User {
   signup(accountInfo: any) {
     let seq = this.api.post('signup', accountInfo).share();
 
-    seq.subscribe((res: any) => {
-      // If the API returned a successful response, mark the user as logged in
-      if (res.status == 'success') {
-        this._loggedIn(res);
-      }
-    }, err => {
-      console.error('ERROR', err);
+    let p = new Promise((resolve, reject)=> {
+      seq.subscribe((res: any) => {
+        // If the API returned a successful response, mark the user as logged in
+        if (res.status == 'success') {
+          this._loggedIn(res);
+          resolve(res);
+        } else if (res.status == 'error') {
+          this.logout();
+          reject(res);
+        }
+      }, err => {
+        console.error('ERROR', err);
+        reject(err);
+      });
     });
 
-    return seq;
+
+    return p;
   }
 
   /**

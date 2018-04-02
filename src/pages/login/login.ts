@@ -52,9 +52,11 @@ export class LoginPage {
     this.pageTrans.slide(options);
     this.navCtrl.setRoot('ChatPage');
   }
+
   // Attempt to login in through our User service
+  //TODO: Change login to use promise so I can control login rejection
   doLogin() {
-    this.user.login(this.account).subscribe((resp) => {
+    this.user.login(this.account).then((resp) => {
       this.navCtrl.push(MainPage);
     }, (err) => {
       //this.navCtrl.push(MainPage);
@@ -68,14 +70,16 @@ export class LoginPage {
     });
   }
 
+//TODO: Change signup to use promise so I can control signup rejection
   doSignup() {
     // Attempt to login in through our User service
-    this.user.signup(this.account).subscribe((resp) => {
+    this.user.signup(this.account).then((resp) => {
+      console.log(resp);
       this.navCtrl.push(MainPage);
     }, (err) => {
 
       //this.navCtrl.push(MainPage);
-
+      console.log(err);
       // Unable to sign up
       let toast = this.toastCtrl.create({
       //TODO: if not fixed, use old code

@@ -26,16 +26,17 @@ module.exports = {
     });
     return p;
   },
-  addUser: function(username, pass) {
+  addUser: function(account) {
     var newUserId = userTable.push().key;
     console.log("New User ID created.");
-    var userData = {
-      "username": username,
-      "password": pass,
-      "userID": newUserId
-    }
-    userTable.child(newUserId).set(userData);
-    return userData;
+    // var userData = {
+    //   "username": username,
+    //   "password": pass,
+    //   "userID": newUserId
+    // }
+    account["userID"] = newUserId;
+    userTable.child(newUserId).set(account);
+    return account;
   },
   updateChatState: function(userID, cs) {
     userTable.child(userID).child("chatState").set(cs);

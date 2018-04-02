@@ -1,12 +1,30 @@
 @import "../../theme/variables";
 page-login {
-  /*.background{
-    background: #9CADCE;*/
+
   }
   .infoInput{
     background: #FFFFFF;
+    width: 90%;
+    margin: auto;
   }
-  .skipButton{
-  padding: 15px 32px;
-  text-align: center;
-  }
+  // .skipButton{
+  // padding: 15px 32px;
+  // text-align: center;
+  // }
+
+.header{
+  padding-top: 60px;
+  padding-bottom: 40px;
+  margin: auto;
+  color: #FFFFFF;
+  font-weight:bold;
+}
+
+  .gradient{
+  background: linear-gradient(#03a9f4, #43d9FF);
+}
+
+.or{
+    color: #FFFFFF;
+    margin: auto;
+}
