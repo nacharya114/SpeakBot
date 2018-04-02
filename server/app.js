@@ -4,7 +4,7 @@ var app = express();
 var bodyparser =require('body-parser');
 
 const Cleverbot = require('cleverbot');
-var cbot = new Cleverbot({key: "CC7i1plOP5-fomRyfjyWM33QSkg"});
+var cbot = new Cleverbot({key: "CC8hy0Bny7N8DtVbWrw3EYKGSIQ"});
 
 var auth = require('./auth');
 var chatDB = require('./chatDB');
