@@ -27,6 +27,19 @@
           <button ion-button color="secondary" block>{{ 'LOGIN_BUTTON' | translate }}</button>
         </div>
 
+        <div padding>
+          <button ion-button color="secondary" block>{{ 'SIGNUP_BUTTON' | translate }}</button>
+        </div>
+
+        <ion-item>
+            <ion-label>Choose Language!</ion-label>
+            <ion-select [(ngModel)]="account.language" multiple="false">
+              <ion-option>English</ion-option>
+              <ion-option>French</ion-option>
+              <ion-option>German</ion-option>
+            </ion-select>
+          </ion-item>
+
       </ion-list>
     </form>
     <ion-col align-items-center>

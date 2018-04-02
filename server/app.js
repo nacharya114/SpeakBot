@@ -38,6 +38,9 @@ app.post('/chatbot', (req,res) => {
   input = req.body.input;
   chatState = req.body.cs;
   userId = req.body.userID;
+  console.log(input);
+  console.log(chatState);
+  console.log(userId);
 
   if (input) {
     // res.send("Your input was:" + input);

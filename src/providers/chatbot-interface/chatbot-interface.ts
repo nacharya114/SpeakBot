@@ -23,39 +23,9 @@ export class ChatbotInterfaceProvider {
     this.getChatMessages("en").then((msg)=> {
       console.log("Got messages");
     },
-  ()=> {
-    console.log("Error, couldnt get messages");
-  });
-    // this.getChatMessages().then((msglist)=> {
-    //   this.messages = msglist;
-    // },
-    // ()=>{
-    //   this.messages = [];
-    // });
-      // {
-      //   "name": "CleverBot",
-      //   "content": "Hello!",
-      // },
-      // {
-      //   "name": "User",
-      //   "content": "Hello!",
-      // },
-      // {
-      //   "name": "CleverBot",
-      //   "content": "How are you today!",
-      // },
-      // {
-      //   "name": "User",
-      //   "content": "Great! How are you",
-      // },
-      // {
-      //   "name": "CleverBot",
-      //   "content": "Fine",
-      // },
-      // {
-      //   "name": "User",
-      //   "content": "What is the weather today",
-      // }
+    ()=> {
+      console.log("Error, couldnt get messages");
+    });
   }
 
   getChatMessages(lang){
