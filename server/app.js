@@ -70,15 +70,11 @@ app.post('/chatbot', (req,res) => {
 
 app.get('/chatbot', (req, res) => {
   chatID = req.query.chatID;
-  target_lang = req.query.lang;
   if (!chatID) {
     res.send({"status": "error"});
     return;
   }
-  if (!target_lang) {
-    target_lang = "en";
-  }
-    chatDB.getMessages(chatID, target_lang).then((msgs) => {
+    chatDB.getMessages(chatID).then((msgs) => {
       res.send({
         "status": "success",
         "messages": msgs
@@ -114,12 +110,13 @@ app.post('/login', (req, res)=> {
 });
 
 app.post('/signup', (req, res)=> {
-    var newAccount = req.body;
-    console.log(newAccount);
+    var account = req.body;
+    console.log(account);
     // res.send(newAccount);
-    var user = auth.addUser(newAccount);
-    res.send({"status": "success",
-              "user": user});
+    var user = auth.addUser(account).then((user) => {
+      res.send({"status": "success",
+                "user": user});
+    });
 });
 
 

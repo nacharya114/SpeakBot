@@ -94,11 +94,32 @@ export class User {
    */
   _loggedIn(resp) {
     this._user = resp.user;
+    console.log(resp.user);
     alert(resp.user.username + ", you are now logged in");
   }
 
   getUser() {
     return this._user;
+  }
+
+//Gets the chatID for a specified language
+  getChatID(lang) {
+    if (this._user) {
+      return this._user["languages"][lang];
+    }
+    return false;
+  }
+
+  //returns the first language found in the langauges array for a certain user
+  getFirstChatID() {
+    var keys = Object.keys(this._user["languages"]);
+    console.log(this._user["languages"][keys[0]]);
+    return this._user["languages"][keys[0]];
+  }
+
+  getLanguages() {
+    var keys = Object.keys(this._user["languages"]);
+    return keys;
   }
 
   _isLoggedIn() {

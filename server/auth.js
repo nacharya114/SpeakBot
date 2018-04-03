@@ -1,6 +1,9 @@
 var firebase = require('./fbConnect');
 var database = firebase.database();
 var userTable = database.ref('users');
+var chatTable = database.ref('chats');
+
+var prime = require('./prime');
 
 module.exports = {
   isValidUser: function(username, password) {
@@ -27,16 +30,39 @@ module.exports = {
     return p;
   },
   addUser: function(account) {
-    var newUserId = userTable.push().key;
-    console.log("New User ID created.");
-    // var userData = {
-    //   "username": username,
-    //   "password": pass,
-    //   "userID": newUserId
-    // }
-    account["userID"] = newUserId;
-    userTable.child(newUserId).set(account);
-    return account;
+    var p = new Promise((resolve, reject) => {
+      prime.getNewChat(account['language']).then((res) => {
+        var newUserId = userTable.push().key;
+        console.log("New User ID created.");
+
+        //Creating new account variable to be saved to firebase and sent back to user
+        var ret_account = {
+          "username": account.username,
+          "password": account.password,
+          "userID": newUserId,
+          "languages": {}
+        }
+        ret_account["languages"][account['language']] = res.conversation_id;
+
+        first_msg = {
+          "content": res.output,
+          "chatState": res.cs,
+          "name": "Cleverbot"
+        };
+        chat_data = {
+          "language": account["language"],
+          "userID":  newUserId,
+          "chatState": res.cs,
+          "messages": [first_msg]
+        };
+        console.log(ret_account);
+
+        chatTable.child(res.conversation_id).set(chat_data);
+        userTable.child(newUserId).set(ret_account);
+        resolve(ret_account);
+      });
+    });
+    return p;
   },
   updateChatState: function(userID, cs) {
     userTable.child(userID).child("chatState").set(cs);

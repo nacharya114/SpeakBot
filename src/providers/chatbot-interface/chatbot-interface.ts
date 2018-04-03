@@ -17,47 +17,61 @@ export class ChatbotInterfaceProvider {
   chatID: String;
   chatState: String;
 
-
   constructor(public http: HttpClient, public api: Api, private user: User) {
     console.log('Hello ChatbotInterfaceProvider Provider');
-    this.getChatMessages("en").then((msg)=> {
+    this.getChatMessages(this.user.getLanguages()[0]).then((msg)=> {
       console.log("Got messages");
     },
-    ()=> {
+    () => {
       console.log("Error, couldnt get messages");
     });
   }
 
   getChatMessages(lang){
     var p = new Promise<Message[]>((resolve, reject) => {
-      if (this.user._isLoggedIn()) {
-        console.log("User ID:" + this.user.getUser()['chatID']);
-        var params = {
-          "chatID": this.user.getUser()["chatID"],
-          "lang": lang
-        };
-        this.api.get(this.endpoint, params).subscribe((data)=> {
-          // let msg: any;
-        console.log(data);
-        this.messages = [];
-        for (let msg of data["messages"]) {
-          console.log(msg);
-          this.messages.push(this.createReply(msg['name'], msg['content'], ""));
-        }
-          resolve(this.messages);
-          console.log("Message list recieved");
-          console.log(this.messages);
-        });
-      } else {
-        console.log("Message promise rejected");
-        reject();
+      this.messages = [];
+      //This uses the requested langauge to fetch the appropriate chatID from the user
+
+      var params = {
+        chatID: this.user.getUser()["languages"][lang]
       }
+      console.log(params);
+      this.api.get(this.endpoint, params).subscribe((data) => {
+        console.log(data);
+        for (let msg in data["messages"]) {
+          console.log(msg);
+          this.messages.push(new Message(data["messages"][msg]));
+        }
+        resolve(this.messages);
+      });
+      // if (this.user._isLoggedIn()) {
+      //   console.log("User ID:" + this.user.getUser()['chatID']);
+      //   var params = {
+      //     "chatID": this.user.getUser()["chatID"],
+      //     "lang": lang
+      //   };
+      //   this.api.get(this.endpoint, params).subscribe((data)=> {
+      //     // let msg: any;
+      //   console.log(data);
+      //   this.messages = [];
+      //   for (let msg of data["messages"]) {
+      //     console.log(msg);
+      //     this.messages.push(this.createReply(msg['name'], msg['content'], ""));
+      //   }
+      //     resolve(this.messages);
+      //     console.log("Message list recieved");
+      //     console.log(this.messages);
+      //   });
+      // } else {
+      //   console.log("Message promise rejected");
+      //   reject();
+      // }
     });
     return p;
   }
 
   sendMessage(msgStr: String, chatState: String): Promise<Message> {
-    this.messages.push(this.createUserReply(msgStr, ""));
+    this.messages.push(this.createUserReply(msgStr));
     console.log("Geting message");
     let p = new Promise((resolve) =>{
       var params = {"input": msgStr,
@@ -72,7 +86,7 @@ export class ChatbotInterfaceProvider {
                                       if (this.chatID == null) {
                                         this.chatID = data['chatID'];
                                       }
-                                      resolve(this.createCleverbotReply(data["output"], this.chatState));
+                                      resolve(this.createCleverbotReply(data["output"]));
                                     });
     });
     return p;
@@ -85,15 +99,15 @@ export class ChatbotInterfaceProvider {
   getChatId():String {
     return this.user.getUser()['chatID'];
   }
-  private createCleverbotReply(message: String, chatID:String): Message{
-    return this.createReply("Cleverbot", message, chatID);
+  private createCleverbotReply(message: String): Message{
+    return this.createReply("Cleverbot", message);
   }
 
-  private createUserReply(message: String, chatID:String):Message {
-    return this.createReply("User", message, chatID);
+  private createUserReply(message: String):Message {
+    return this.createReply("User", message);
   }
 
-  private createReply(name: String, content: String, chatID:String):Message {
+  private createReply(name: String, content: String):Message {
     return new Message({"name": name,
             "content": content});
   }
