@@ -70,12 +70,31 @@ module.exports = {
   updateChatID: function(userID, chatID) {
     userTable.child(userID).child("chatID").set(chatID);
   },
-  addlang: function(userID, lang){
-    userTable.child(userID).child("languages").once("value").then((data) => {
-      var language_list = data.val();
-      prime.getNewChat(lang).then((res) => {
+  addLang: function(userID, lang){
+    var p = new Promise((resolve, reject) => {
+      userTable.child(userID).child("languages").once("value").then((data) => {
+        var language_list = data.val(); // get the current list of language_list
+        prime.getNewChat(lang).then((res) => {
+          language_list[lang] = res.conversation_id;
 
-      })
-    })
+
+          first_msg = {
+            "content": res.output,
+            "chatState": res.cs,
+            "name": "Cleverbot"
+          };
+          chat_data = {
+            "language": lang,
+            "userID":  userID,
+            "chatState": res.cs,
+            "messages": [first_msg]
+          };
+          chatTable.child(res.conversation_id).set(chat_data);
+          userTable.child(userID).child("languages").set(language_list);
+          resolve(language_list);
+        });
+      });
+    });
+    return p;
   }
 }

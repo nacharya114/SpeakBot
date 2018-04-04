@@ -19,7 +19,7 @@ import { User } from '../../providers/user/user';
 export class ChatPage {
   @ViewChild(Content) content: Content;
   _zone: any;
-  currentMessages: Message[];
+  currentMessages: Array<Message>;
   speechList: Array<string> = [];
   userInput: String = "";
   chatId: String = "";
@@ -30,6 +30,7 @@ export class ChatPage {
     private speech: SpeechRecognition, _zone: NgZone, public lsActionSheet: ActionSheetController,
     private pageTrans:NativePageTransitions, private user: User) {
   this._zone = _zone;
+  this.currentLanguage = this.user.getLanguages()[0];
   this.chatbotInterface.getChatMessages(this.currentLanguage).then((data) => {
     this.currentMessages = data;
   });
@@ -66,16 +67,16 @@ export class ChatPage {
     for(let lang of languages){
       var button = {text: lang,
         handler: () => {
-          user.addlang(map[lang]).then((res) => {
+          this.user.addlang(map[lang]).then((res) => {
             this.currentLanguage = map[lang];
-            this.changeChatLanguage();
+            this.changeChatLanguage(); //updates the screen
           })
         }};
         buttonArr.push(button)
       }
 
     let actionSheet = this.lsActionSheet.create({
-      title: 'Select a Language',
+      title: 'Select a Language to add:',
       buttons: buttonArr
     });
     actionSheet.present();
@@ -159,7 +160,7 @@ export class ChatPage {
  sendMessage(){
    this._zone.run(() => {
      this.listen().then(msg => {
-       this.chatbotInterface.sendMessage(msg,this.chatId)
+       this.chatbotInterface.sendMessage(msg,this.currentMessages[this.currentMessages.length -1]["chatState"], this.currentLanguage)
         .then((message)=> {
           this.currentMessages.push(message);
           this.chatId = this.chatbotInterface.getChatId();
@@ -204,6 +205,7 @@ export class ChatPage {
 
   playSpeech(event, message: Message) {
     // TODO: add speed option
+     console.log(this.currentLanguage);
       this.text2speech.speak({text: message.content, locale: this.currentLanguage}).catch( error => {});
   }
 }

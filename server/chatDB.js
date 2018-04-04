@@ -14,23 +14,31 @@ const translate = new Translate({
   'projectId': projectId,
 });
 
+// updateChatState(chatID, newCS) {
+//   chatDB.child(chatID).child("chatState").set(newCS);
+// };
 
 module.exports = {
-  saveMessage: function(input, output, newChatState, chatID) {
+  saveMessage: function(input, output, oldCS, newChatState, chatID) {
     var p = new Promise((resolve, reject) => {
       chatDB.child(chatID).child("messages")
         .once('value').then((data) => {
-          var msg_list: Array = data.val();
+          var msg_list = data.val();
+          console.log(msg_list);
           msg_list.push({
             "content": input,
-            "name": "User"
+            "name": "User",
+            "chatState": oldCS
           });
           msg_list.push({
             "content": output,
             "name": "Cleverbot",
             "chatState": newChatState
           });
+          console.log(msg_list);
           chatDB.child(chatID).child("messages").set(msg_list);
+          chatDB.child(chatID).child("chatState").set(newChatState);
+          resolve();
         });
 
     });
@@ -103,7 +111,6 @@ module.exports = {
 
     return p;
   }
-
 }
 
 //OLD CODE FOR TRANSLATIONS:

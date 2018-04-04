@@ -44,12 +44,14 @@ app.post('/chatbot', (req,res) => {
     cbot.query(input, {
       cs: chatState
     }).then((cres) => {
+      console.log("Cleverbot res:");
+      console.log(cres);
         cObj = {
           "content": cres.output,
           "name": "Cleverbot",
           "chatState": cres.cs
         };
-        chatDB.saveMessage(input, cres.output, cres.cs, chatID);
+        chatDB.saveMessage(input, cres.output, chatState, cres.cs, chatID);
         res.send(cObj);
     })
   }
@@ -138,13 +140,13 @@ app.post('/signup', (req, res)=> {
 });
 
 app.post('/addlang', (req, res)=> {
-    var lang = req.body.lang;
+    var lang = req.body.language;
     var userID = req.body.userID;
     console.log("the user requested to add langauge:");
     console.log(lang);
-    var user = auth.addUser(account).then((user) => {
+    var user = auth.addLang(userID, lang).then((langs) => {
       res.send({"status": "success",
-                "user": user});
+                "languages": langs});
     });
 });
 

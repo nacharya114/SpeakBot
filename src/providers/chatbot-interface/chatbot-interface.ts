@@ -38,6 +38,7 @@ export class ChatbotInterfaceProvider {
       console.log(params);
       this.api.get(this.endpoint, params).subscribe((data) => {
         console.log(data);
+        this.messages = [];
         for (let msg in data["messages"]) {
           console.log(msg);
           this.messages.push(new Message(data["messages"][msg]));
@@ -48,23 +49,20 @@ export class ChatbotInterfaceProvider {
     return p;
   }
 
-  sendMessage(msgStr: String, chatState: String): Promise<Message> {
+  sendMessage(msgStr: String, chatState: String, lang: String): Promise<Message> {
     this.messages.push(this.createUserReply(msgStr));
     console.log("Geting message");
     let p = new Promise((resolve) =>{
       var params = {"input": msgStr,
-            "cs": chatState};
+            "chatState": chatState};
       if (this.user._isLoggedIn()) {
-        params['userID'] = this.user.getUser()['userID'];
+        params['chatID'] = this.user.getChatID(lang);
       }
       console.log(params);
       //TODO: Find out why messages aren't saving by comparing REST parameters.
       this.api.post(this.endpoint, params).subscribe((data) => {
-                                      this.chatState = data["cs"];
-                                      if (this.chatID == null) {
-                                        this.chatID = data['chatID'];
-                                      }
-                                      resolve(this.createCleverbotReply(data["output"]));
+                                      this.chatState = data["chatState"];
+                                      resolve(new Message(data));
                                     });
     });
     return p;
