@@ -1,13 +1,11 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-buttons left>
-      <button ion-button icon-only color="secondary" (click)="backToLogin()">
-        <ion-icon name="arrow-round-back"></ion-icon>
-      </button>
-    </ion-buttons>
-    <ion-title>Chat</ion-title>
+  <ion-navbar hideBackButton="true">
+    <ion-title>SpeakBot</ion-title>
     <ion-buttons right>
+      <button ion-button icon-only (click)="addLanguageActionSheet()">
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
       <button ion-button icon-only (click)="presentLanguageActionSheet()">
         <ion-icon name="cog"></ion-icon>
       </button>

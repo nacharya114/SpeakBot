@@ -82,6 +82,36 @@ export class User {
     return p;
   }
 
+  addlang(language: any){
+
+    let params = {
+      "userID": this._user["userID"],
+      "language": language
+    }
+
+    let seq = this.api.post('addlang', params).share();
+
+    let p = new Promise((resolve, reject) => {
+      seq.subscribe((res: any) => {
+
+        if (res.status == 'success') {
+          this.updateLanguages(res["languages"]);
+          resolve(res);
+        } else if (res.status == 'error') {
+          reject(res);
+        }
+      }, err => {
+        console.error('ERROR', err);
+        reject(err);
+      });
+    });
+
+  return p;
+ }
+
+ updateLanguages(list) {
+   this._user["languages"] = list;
+ }
   /**
    * Log the user out, which forgets the session
    */
@@ -94,11 +124,32 @@ export class User {
    */
   _loggedIn(resp) {
     this._user = resp.user;
+    console.log(resp.user);
     alert(resp.user.username + ", you are now logged in");
   }
 
   getUser() {
     return this._user;
+  }
+
+//Gets the chatID for a specified language
+  getChatID(lang) {
+    if (this._user) {
+      return this._user["languages"][lang];
+    }
+    return false;
+  }
+
+  //returns the first language found in the langauges array for a certain user
+  getFirstChatID() {
+    var keys = Object.keys(this._user["languages"]);
+    console.log(this._user["languages"][keys[0]]);
+    return this._user["languages"][keys[0]];
+  }
+
+  getLanguages() {
+    var keys = Object.keys(this._user["languages"]);
+    return keys;
   }
 
   _isLoggedIn() {
