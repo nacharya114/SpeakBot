@@ -11,6 +11,8 @@ import { Content } from 'ionic-angular';
 import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions';
 import { User } from '../../providers/user/user';
 
+declare var responsiveVoice: any;
+
 @IonicPage()
 @Component({
   selector: 'chat',
@@ -24,6 +26,7 @@ export class ChatPage {
   userInput: String = "";
   chatId: String = "";
   currentLanguage = "";
+
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech,
@@ -165,7 +168,7 @@ export class ChatPage {
           this.currentMessages.push(message);
           this.chatId = this.chatbotInterface.getChatId();
           this.scrollToBottom();
-          this.text2speech.speak(message.content).catch(error => {});
+          this.playSpeech(null, message.content);
         });
      });
    });
@@ -206,6 +209,12 @@ export class ChatPage {
   playSpeech(event, message: Message) {
     // TODO: add speed option
      console.log(this.currentLanguage);
-      this.text2speech.speak({text: message.content, locale: this.currentLanguage, rate: .5}).catch( error => {});
+     var map = {
+       "fr-FR": "French Female",
+       "de-DE": "Deutsch Female",
+       "en-US": "US English Female"
+     }
+     responsiveVoice.speak(message.content, map[this.currentLanguage]);
+      // this.text2speech.speak({text: message.content, locale: this.currentLanguage, rate: 1}).catch( error => {});
   }
 }
