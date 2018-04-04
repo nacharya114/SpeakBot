@@ -206,6 +206,6 @@ export class ChatPage {
   playSpeech(event, message: Message) {
     // TODO: add speed option
      console.log(this.currentLanguage);
-      this.text2speech.speak({text: message.content, locale: this.currentLanguage}).catch( error => {});
+      this.text2speech.speak({text: message.content, locale: this.currentLanguage, rate: .5}).catch( error => {});
   }
 }
