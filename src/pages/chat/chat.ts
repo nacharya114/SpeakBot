@@ -9,6 +9,7 @@ import { Message } from '../../models/message';
 import { ChatbotInterfaceProvider } from '../../providers/chatbot-interface/chatbot-interface'
 import { Content } from 'ionic-angular';
 import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions';
+import { User } from '../../providers/user/user';
 
 @IonicPage()
 @Component({
@@ -22,85 +23,97 @@ export class ChatPage {
   speechList: Array<string> = [];
   userInput: String = "";
   chatId: String = "";
-  currentLanguage = {
-    "language": "en",
-    "locale": "en-US"
-  };
+  currentLanguage = "";
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech,
     private speech: SpeechRecognition, _zone: NgZone, public lsActionSheet: ActionSheetController,
-    private pageTrans:NativePageTransitions) {
+    private pageTrans:NativePageTransitions, private user: User) {
   this._zone = _zone;
-  this.chatbotInterface.getChatMessages(this.currentLanguage.language).then((data) => {
+  this.chatbotInterface.getChatMessages(this.currentLanguage).then((data) => {
     this.currentMessages = data;
   });
   }
 
-  // listenForSpeech() {
-  //   try{
-  //     const permission = await this.speech.hasPermission();
-  //     console.log(permission);
-  //     if(permission){
-  //       //specified for english atm
-  //       this.speech.startListening({"language": "en-EN"}).subscribe(
-  //       data =>
-  //         {this.speechList = data;
-  //           this.userInput = this.speechList[0];
-  //           this.chatbotInterface.sendMessage(this.userInput, this.chatId)
-  //           .then((data) => {
-  //             this.currentMessages.push(data);
-  //           });
-  //           if ((!this.chatId.length) && this.chatbotInterface.hasChatId()){
-  //             this.chatId = this.chatbotInterface.getChatId();
-  //           }
-  //           this.bottomScroll();
-  //     }, error => console.log(error));
-  //     }else{
-  //       this.speech.requestPermission();
-  //     }
-  //   }
-  //   catch(e){}
-  //
-  // }
   presentLanguageActionSheet() {
+    var languages = this.user.getLanguages();
+    var map = {"en-US": "English",
+              "fr-FR": "French",
+              "de-DE":"German"};
+    let buttonArr = [];
+    for(let lang of languages){
+      var button = {text: map[lang],
+        handler: () => {
+          this.currentLanguage = lang;
+          this.changeChatLanguage();
+        }};
+        buttonArr.push(button)
+      }
+
     let actionSheet = this.lsActionSheet.create({
       title: 'Select a Language',
-      buttons: [
-        {
-          text: 'English',
-          handler: () => {
-            console.log('English clicked');
-            this.currentLanguage = {
-              "language": "en",
-              "locale": "en-US"
-            };
-            this.changeChatLanguage();
-          }
-        },
-        {
-          text: 'Francais',
-          handler: () => {
-            console.log('Francais clicked');
-            this.currentLanguage.language = "fr";
-            this.currentLanguage.locale = "fr-FR";
-            this.changeChatLanguage();
-          }
-        },
-        {
-          text: 'Language 3',
-          handler: () => {
-            console.log('Button 3 clicked');
-          }
-        }
-      ]
+      buttons: buttonArr
     });
     actionSheet.present();
   }
 
+  addLanguageActionSheet() {
+    var languages = ["English", "French", "German"];
+    var map = {"English": "en-US",
+              "French": "fr-FR",
+              "German":"de-DE"};
+    let buttonArr = [];
+    for(let lang of languages){
+      var button = {text: lang,
+        handler: () => {
+          user.addlang(map[lang]).then((res) => {
+            this.currentLanguage = map[lang];
+            this.changeChatLanguage();
+          })
+        }};
+        buttonArr.push(button)
+      }
+
+    let actionSheet = this.lsActionSheet.create({
+      title: 'Select a Language',
+      buttons: buttonArr
+    });
+    actionSheet.present();
+  }
+
+// replace at buttons:
+  // [
+  //   {
+  //     text: 'English',
+  //     handler: () => {
+  //       console.log('English clicked');
+  //       this.currentLanguage = {
+  //         "language": "en",
+  //         "locale": "en-US"
+  //       };
+  //       this.changeChatLanguage();
+  //     }
+  //   },
+  //   {
+  //     text: 'Francais',
+  //     handler: () => {
+  //       console.log('Francais clicked');
+  //       this.currentLanguage.language = "fr";
+  //       this.currentLanguage.locale = "fr-FR";
+  //       this.changeChatLanguage();
+  //     }
+  //   },
+  //   {
+  //     text: 'Language 3',
+  //     handler: () => {
+  //       console.log('Button 3 clicked');
+  //     }
+  //   }
+  // ]
+
   changeChatLanguage() {
     this._zone.run(() => {
-      this.chatbotInterface.getChatMessages(this.currentLanguage.language)
+      this.chatbotInterface.getChatMessages(this.currentLanguage)
         .then((msgs) => {
           console.log("Changed language:");
           console.log(msgs);
@@ -120,7 +133,7 @@ export class ChatPage {
   }
  listen():Promise<String> {
    let p = new Promise<String>(resolve => {
-     this.speech.startListening({"language": this.currentLanguage.language}).subscribe(data =>{
+     this.speech.startListening({"language": this.currentLanguage}).subscribe(data =>{
         resolve(data[0]);
      });
    });
@@ -132,7 +145,7 @@ export class ChatPage {
 
  ionViewWillEnter() {
    console.log("Will enter chat.ts");
-   this.chatbotInterface.getChatMessages(this.currentLanguage.language).then((msgs) => {
+   this.chatbotInterface.getChatMessages(this.currentLanguage).then((msgs) => {
      this.currentMessages = msgs;
      console.log("chat.ts\\ " + this.currentMessages);
    });
@@ -189,11 +202,8 @@ export class ChatPage {
    }
  }
 
- getMessages() {
-   //this.messages = ["hello how are you", "I am well, how are you", "good"];
-  }
-
   playSpeech(event, message: Message) {
-      this.text2speech.speak(message.content).catch( error => {});
+    // TODO: add speed option
+      this.text2speech.speak({text: message.content, locale: this.currentLanguage}).catch( error => {});
   }
 }

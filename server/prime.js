@@ -2,17 +2,17 @@ var request = require('request');
 var querystring = require('querystring');
 
 var prime = {
-  "fr": {
+  "fr-FR": {
       "vtext2": "Bonjour",
       "vtext3": "Bonjour, Cleverbot",
       "input": "Posez-moi une question"
     },
-  "de": {
+  "de-DE": {
       "vtext2": "Guten Tag",
       "vtext3": "Guten Tag, Cleverbot",
       "input": "Fragen Sich mich etwas"
   },
-  "en": {
+  "en-US": {
       "vtext2": "Hello",
       "vtext3": "Hello, Cleverbot",
       "input": "Ask me a question!"

@@ -16,43 +16,64 @@ const translate = new Translate({
 
 
 module.exports = {
-  saveMessage: function(chatID, userID, content, response) {
-    message = {
-      "sender": "User",
-      "chatID": chatID,
-      "userID": userID,
-      "content": content,
-      "interaction_count": 0
-    };
-    if (chatID) {
-      chatDB.child(chatID).orderByChild('interaction_count').limitToLast(1)
+  saveMessage: function(input, output, newChatState, chatID) {
+    var p = new Promise((resolve, reject) => {
+      chatDB.child(chatID).child("messages")
         .once('value').then((data) => {
-          console.log(data.val());
-          // console.log('data.exists: ' + data.exists());
-          if (!data.exists()) {
-            message['interaction_count'] = 0;
-          } else {
-            msglist = data.val();
-            ic = msglist[Object.keys(msglist)[0]];
-            ic = ic['interaction_count'];
-            message['interaction_count'] = ic + 1;
-          }
-          newmsg = chatDB.child(chatID).push().key;
-          message['msgID'] = newmsg;
-          console.log("Saving message:");
-          console.log(message);
-          chatDB.child(chatID).child(newmsg).set(message);
-
-          message['sender'] = "Cleverbot";
-          message['interaction_count'] += 1;
-          newmsg = chatDB.child(chatID).push().key;
-          message['msgID'] = newmsg;
-          message['content'] = response;
-          console.log("Saving message:");
-          console.log(message);
-          chatDB.child(chatID).child(newmsg).set(message);
+          var msg_list: Array = data.val();
+          msg_list.push({
+            "content": input,
+            "name": "User"
+          });
+          msg_list.push({
+            "content": output,
+            "name": "Cleverbot",
+            "chatState": newChatState
+          });
+          chatDB.child(chatID).child("messages").set(msg_list);
         });
-    }
+
+    });
+
+    return p;
+
+
+    // message = {
+    //   "sender": "User",
+    //   "chatID": chatID,
+    //   "userID": userID,
+    //   "content": content,
+    //   "interaction_count": 0
+    // };
+    // if (chatID) {
+    //   chatDB.child(chatID).orderByChild('interaction_count').limitToLast(1)
+    //     .once('value').then((data) => {
+    //       console.log(data.val());
+    //       // console.log('data.exists: ' + data.exists());
+    //       if (!data.exists()) {
+    //         message['interaction_count'] = 0;
+    //       } else {
+    //         msglist = data.val();
+    //         ic = msglist[Object.keys(msglist)[0]];
+    //         ic = ic['interaction_count'];
+    //         message['interaction_count'] = ic + 1;
+    //       }
+    //       newmsg = chatDB.child(chatID).push().key;
+    //       message['msgID'] = newmsg;
+    //       console.log("Saving message:");
+    //       console.log(message);
+    //       chatDB.child(chatID).child(newmsg).set(message);
+    //
+    //       message['sender'] = "Cleverbot";
+    //       message['interaction_count'] += 1;
+    //       newmsg = chatDB.child(chatID).push().key;
+    //       message['msgID'] = newmsg;
+    //       message['content'] = response;
+    //       console.log("Saving message:");
+    //       console.log(message);
+    //       chatDB.child(chatID).child(newmsg).set(message);
+    //     });
+    // }
   },
   //Gets the messages for a particular chat
   //@param chatID chatID for a specific chat
@@ -68,6 +89,8 @@ module.exports = {
 
     return p;
   },
+  //Gets the chatState for a particular chatTable
+  //@parm chatID chat ID for specific chat
   getChatState: function(chatID) {
     var p = new Promise((resolve, reject) => {
       chatDB.child(chatID).child("chatState")

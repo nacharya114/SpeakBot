@@ -44,28 +44,6 @@ export class ChatbotInterfaceProvider {
         }
         resolve(this.messages);
       });
-      // if (this.user._isLoggedIn()) {
-      //   console.log("User ID:" + this.user.getUser()['chatID']);
-      //   var params = {
-      //     "chatID": this.user.getUser()["chatID"],
-      //     "lang": lang
-      //   };
-      //   this.api.get(this.endpoint, params).subscribe((data)=> {
-      //     // let msg: any;
-      //   console.log(data);
-      //   this.messages = [];
-      //   for (let msg of data["messages"]) {
-      //     console.log(msg);
-      //     this.messages.push(this.createReply(msg['name'], msg['content'], ""));
-      //   }
-      //     resolve(this.messages);
-      //     console.log("Message list recieved");
-      //     console.log(this.messages);
-      //   });
-      // } else {
-      //   console.log("Message promise rejected");
-      //   reject();
-      // }
     });
     return p;
   }

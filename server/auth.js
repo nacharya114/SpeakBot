@@ -69,5 +69,13 @@ module.exports = {
   },
   updateChatID: function(userID, chatID) {
     userTable.child(userID).child("chatID").set(chatID);
+  },
+  addlang: function(userID, lang){
+    userTable.child(userID).child("languages").once("value").then((data) => {
+      var language_list = data.val();
+      prime.getNewChat(lang).then((res) => {
+
+      })
+    })
   }
 }
