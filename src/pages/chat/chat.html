@@ -36,6 +36,6 @@
 
 </ion-content>
 
-<ion-fab bottom center color="secondary">
-  <button ion-fab (click) = "send()"><ion-icon name="mic"></ion-icon></button>
+<ion-fab bottom center>
+  <button ion-fab class = "{'nR R': (this.recording == false)}" (click) = "send()"><ion-icon name="mic"></ion-icon></button>
 </ion-fab>
