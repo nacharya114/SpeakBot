@@ -28,6 +28,7 @@ export class ChatPage {
   userInput: String = "";
   chatId: String = "";
   currentLanguage = "";
+  recording = false;
 
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
@@ -143,8 +144,7 @@ export class ChatPage {
         resolve(data[0]);
      });
      if(this.plt.is('ios')){
-       setTimeout(() =>{}, 4000)
-       this.speech.stopListening();
+       this.recording = true;
      }
 
    });
@@ -185,7 +185,12 @@ export class ChatPage {
    this.hasPermission()
     .then(data =>{
       if (data) {
+        if(!this.recording || !this.plt.is('ios')){
         this.sendMessage();
+      }else{
+        this.speech.stopListening();
+        this.recording = false;
+      }
       } else {
         this.getPermission()
         .then(() => {
