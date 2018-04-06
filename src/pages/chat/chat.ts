@@ -10,6 +10,7 @@ import { ChatbotInterfaceProvider } from '../../providers/chatbot-interface/chat
 import { Content } from 'ionic-angular';
 import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions';
 import { User } from '../../providers/user/user';
+import { Platform } from 'ionic-angular';
 
 declare var responsiveVoice: any;
 
@@ -31,7 +32,7 @@ export class ChatPage {
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech,
     private speech: SpeechRecognition, _zone: NgZone, public lsActionSheet: ActionSheetController,
-    private pageTrans:NativePageTransitions, private user: User) {
+    private pageTrans:NativePageTransitions, private user: User, public plt: Platform) {
   this._zone = _zone;
   this.currentLanguage = this.user.getLanguages()[0];
   this.chatbotInterface.getChatMessages(this.currentLanguage).then((data) => {
@@ -141,6 +142,9 @@ export class ChatPage {
         resolve(data[0]);
      });
    });
+   if(this.plt.is('ios')){
+     this.speech.stopListening();
+   }
    return p;
  }
  ionViewDidEnter(){ //adding these too in an attempt to add auto scrolling -g 3/20
