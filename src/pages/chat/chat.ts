@@ -11,6 +11,7 @@ import { Content } from 'ionic-angular';
 import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions';
 import { User } from '../../providers/user/user';
 import { Platform } from 'ionic-angular';
+//import { SpeechRecognitionPlugin } from
 
 declare var responsiveVoice: any;
 
@@ -33,11 +34,11 @@ export class ChatPage {
     public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech,
     private speech: SpeechRecognition, _zone: NgZone, public lsActionSheet: ActionSheetController,
     private pageTrans:NativePageTransitions, private user: User, public plt: Platform) {
-  this._zone = _zone;
-  this.currentLanguage = this.user.getLanguages()[0];
-  this.chatbotInterface.getChatMessages(this.currentLanguage).then((data) => {
-    this.currentMessages = data;
-  });
+    this._zone = _zone;
+    this.currentLanguage = this.user.getLanguages()[0];
+    this.chatbotInterface.getChatMessages(this.currentLanguage).then((data) => {
+      this.currentMessages = data;
+    });
   }
 
   presentLanguageActionSheet() {
@@ -142,8 +143,10 @@ export class ChatPage {
         resolve(data[0]);
      });
      if(this.plt.is('ios')){
+       setTimeout(() =>{}, 4000)
        this.speech.stopListening();
      }
+
    });
    return p;
  }
