@@ -141,10 +141,10 @@ export class ChatPage {
      this.speech.startListening({"language": this.currentLanguage}).subscribe(data =>{
         resolve(data[0]);
      });
+     if(this.plt.is('ios')){
+       this.speech.stopListening();
+     }
    });
-   if(this.plt.is('ios')){
-     this.speech.stopListening();
-   }
    return p;
  }
  ionViewDidEnter(){ //adding these too in an attempt to add auto scrolling -g 3/20

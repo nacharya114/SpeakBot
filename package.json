@@ -60,8 +60,8 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-tts": {},
-      "cordova-plugin-speechrecognition": {},
-      "com.telerik.plugins.nativepagetransitions": {}
+      "com.telerik.plugins.nativepagetransitions": {},
+      "cordova-plugin-speechrecognition": {}
     },
     "platforms": [
       "android",
