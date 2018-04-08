@@ -11,6 +11,7 @@ import { Content } from 'ionic-angular';
 import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions';
 import { User } from '../../providers/user/user';
 import { Platform } from 'ionic-angular';
+import { TranslationsProvider } from '../../providers/translations/translations';
 //import { SpeechRecognitionPlugin } from
 
 declare var responsiveVoice: any;
@@ -34,11 +35,14 @@ export class ChatPage {
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public chatbotInterface: ChatbotInterfaceProvider, private text2speech: TextToSpeech,
     private speech: SpeechRecognition, _zone: NgZone, public lsActionSheet: ActionSheetController,
-    private pageTrans:NativePageTransitions, private user: User, public plt: Platform) {
+    private pageTrans:NativePageTransitions, private user: User, public plt: Platform,
+    private transProvider: TranslationsProvider) {
     this._zone = _zone;
     this.currentLanguage = this.user.getLanguages()[0];
     this.chatbotInterface.getChatMessages(this.currentLanguage).then((data) => {
       this.currentMessages = data;
+      this.playSpeech(null, this.currentMessages[this.currentMessages.length - 1]);
+      this.content.scrollToBottom();
     });
   }
 
@@ -125,6 +129,7 @@ export class ChatPage {
           console.log("Changed language:");
           console.log(msgs);
            this.currentMessages = msgs;
+           this.playSpeech(null, this.currentMessages[0]);
         });
     });
   }
@@ -155,7 +160,6 @@ export class ChatPage {
  }
 
  ionViewWillEnter() {
-   console.log("Will enter chat.ts");
    this.chatbotInterface.getChatMessages(this.currentLanguage).then((msgs) => {
      this.currentMessages = msgs;
      console.log("chat.ts\\ " + this.currentMessages);
@@ -179,7 +183,7 @@ export class ChatPage {
         });
      });
    });
- } //temporarily empty function */
+ }
 
  send(){
    this.hasPermission()
@@ -220,13 +224,41 @@ export class ChatPage {
 
   playSpeech(event, message: Message) {
     // TODO: add speed option
-     console.log(this.currentLanguage);
+     if (!message['speed']) {
+       message.speed = 1;
+     }
      var map = {
        "fr-FR": "French Female",
        "de-DE": "Deutsch Female",
        "en-US": "US English Female"
-     }
-     responsiveVoice.speak(message.content, map[this.currentLanguage]);
+     };
+     var adjusted = (message.speed ? 1 : 0.5);
+     responsiveVoice.speak(message.content, map[this.currentLanguage], {rate: adjusted});
+     message.speed++;
+     message.speed %= 2;
       // this.text2speech.speak({text: message.content, locale: this.currentLanguage, rate: 1}).catch( error => {});
+  }
+
+  translate(message) {
+    if (message['isTranslated']) {
+      message['isTranslated'] = false;
+    } else if (message['translation']){
+      message['isTranslated'] = true;
+    } else {
+
+      this._zone.run(() => {
+        this.transProvider.translateMessage(message.content, this.currentLanguage).then((translation) => {
+          message['translation'] = translation;
+          message['isTranslated'] = true;
+        });
+      });
+      this.playSpeech(null, message);
+    }
+  }
+
+
+  revertConversation(message) {
+    console.log("chat.ts\\ in revertConversation()");
+    alert("Still here");
   }
 }

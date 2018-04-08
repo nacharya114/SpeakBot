@@ -18,16 +18,18 @@
 
   <ion-grid>
     <ion-row *ngFor="let message of currentMessages">
-        <div col-9>
-          <button class="botmessage" *ngIf="message.name === 'Cleverbot'" ion-item text-wrap (click)="playSpeech($event, message)" color="primary">
+        <div col-9 *ngIf="message.name === 'Cleverbot'">
+          <button class="botmessage"  ion-item text-wrap (click)="translate(message)" on-hold="revertConversation(message)" color="primary">
             <h3>{{message.name}}</h3>
             <h2>{{message.content}}</h2>
+            <h2 *ngIf="message.isTranslated">Translation: {{message.translation}}</h2>
           </button>
         </div>
-        <div col-9 offset-3>
-          <button col-9 class="usermessage"  *ngIf="message.name !== 'Cleverbot'" ion-item text-wrap (click)="playSpeech($event, message)" color="secondary">
+        <div col-9 offset-3 *ngIf="message.name !== 'Cleverbot'">
+          <button col-9 class="usermessage"   ion-item text-wrap (click)="translate(message)" color="secondary">
             <h3>{{message.name}}</h3>
             <h2>{{message.content}}</h2>
+            <h2 *ngIf="message.isTranslated">Translation: {{message.translation}}</h2>
           </button>
         </div>
       </ion-row>

@@ -4,15 +4,8 @@ var database = firebase.database();
 var chatDB = database.ref('chats');
 var users = database.ref('users');
 
-const Translate = require('@google-cloud/translate');
 
-// Your Google Cloud Platform project ID
-const projectId = 'speakbot-197821';
 
-// Instantiates a client
-const translate = new Translate({
-  'projectId': projectId,
-});
 
 // updateChatState(chatID, newCS) {
 //   chatDB.child(chatID).child("chatState").set(newCS);

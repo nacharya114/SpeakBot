@@ -2,9 +2,20 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var bodyparser =require('body-parser');
+var request = require('request');
 
 const Cleverbot = require('cleverbot');
 var cbot = new Cleverbot({key: "CC8hy0Bny7N8DtVbWrw3EYKGSIQ"});
+
+const Translate = require('@google-cloud/translate');
+
+// Your Google Cloud Platform project ID
+const projectId = 'speakbot-197821';
+
+// Instantiates a client
+const translate = new Translate({
+  'projectId': projectId,
+});
 
 var auth = require('./auth');
 var chatDB = require('./chatDB');
@@ -147,6 +158,40 @@ app.post('/addlang', (req, res)=> {
     var user = auth.addLang(userID, lang).then((langs) => {
       res.send({"status": "success",
                 "languages": langs});
+    });
+});
+
+app.get('/translate', (req, res) => {
+  var target = req.query.target;
+  var content = req.query.content;
+  var source = req.query.source;
+
+  target = target.substr(0,2);
+  source = source.substr(0,2);
+
+  console.log("Translating request:" + content + " to language: " + target + ", from: " + source);
+
+    // translate.translate(content, target).then ((data) => {
+    //   var translation = data[0];
+    //   res.send({'translation': translation});
+    // });
+
+    var form = {
+      "q": content,
+      "target": target,
+      "source": source,
+      "format": 'text',
+      "key": "AIzaSyBz3CzW9iqanvJkedIWAZtxJ84Xai3vqIw"
+    };
+
+    request.post({
+      url: "https://translation.googleapis.com/language/translate/v2",
+      form: form
+    }, function(err, resp, body) {
+      console.log(err,JSON.parse(body));
+      var results = JSON.parse(body);
+      console.log(results.data.translations[0].translatedText);
+      res.send({translation: results.data.translations[0].translatedText});
     });
 });
 
