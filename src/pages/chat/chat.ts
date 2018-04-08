@@ -245,13 +245,14 @@ export class ChatPage {
     } else if (message['translation']){
       message['isTranslated'] = true;
     } else {
-
-      this._zone.run(() => {
-        this.transProvider.translateMessage(message.content, this.currentLanguage).then((translation) => {
-          message['translation'] = translation;
-          message['isTranslated'] = true;
+      if (!(this.currentLanguage == this.user.getUser().nativeLanguage)) {
+        this._zone.run(() => {
+          this.transProvider.translateMessage(message.content, this.currentLanguage).then((translation) => {
+            message['translation'] = translation;
+            message['isTranslated'] = true;
+          });
         });
-      });
+      }
       this.playSpeech(null, message);
     }
   }

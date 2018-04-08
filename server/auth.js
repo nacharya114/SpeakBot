@@ -40,6 +40,7 @@ module.exports = {
           "username": account.username,
           "password": account.password,
           "userID": newUserId,
+          "nativeLanguage": account.nativeLanguage,
           "languages": {}
         }
         ret_account["languages"][account['language']] = res.conversation_id;

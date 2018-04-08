@@ -73,22 +73,23 @@ export class LoginPage {
 //TODO: Change signup to use promise so I can control signup rejection
   doSignup() {
     // Attempt to login in through our User service
-    this.user.signup(this.account).then((resp) => {
-      console.log(resp);
-      this.navCtrl.push(MainPage);
-    }, (err) => {
-
-      //this.navCtrl.push(MainPage);
-      console.log(err);
-      // Unable to sign up
-      let toast = this.toastCtrl.create({
-      //TODO: if not fixed, use old code
-        message: "Sign up failed", //this.signupErrorString
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
-    });
+    // this.user.signup(this.account).then((resp) => {
+    //   console.log(resp);
+    //   this.navCtrl.push(MainPage);
+    // }, (err) => {
+    //
+    //   //this.navCtrl.push(MainPage);
+    //   console.log(err);
+    //   // Unable to sign up
+    //   let toast = this.toastCtrl.create({
+    //   //TODO: if not fixed, use old code
+    //     message: "Sign up failed", //this.signupErrorString
+    //     duration: 3000,
+    //     position: 'top'
+    //   });
+    //   toast.present();
+    // });
+    this.navCtrl.push('SignupPage');
   }
 
 }

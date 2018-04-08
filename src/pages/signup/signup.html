@@ -8,13 +8,13 @@
 
 
 <ion-content>
-  <form (submit)="doSignup()">
+  <form (submit)="doSignup()" id="hid">
     <ion-list>
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-label fixed>{{ 'NAME' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="account.name" name="name"></ion-input>
-      </ion-item>
+      </ion-item> -->
 
       <!-- <ion-item>
         <ion-label fixed>{{ 'EMAIL' | translate }}</ion-label>
@@ -24,17 +24,38 @@
 
       <!-- Want to add a Username? Here you go: -->
 
-      <ion-item>
+      <ion-item class="infoInput">
         <ion-label floating>Username</ion-label>
         <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
       </ion-item>
 
 
-      <ion-item>
-        <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
+      <ion-item class="infoInput">
+        <ion-label floating>{{ 'PASSWORD' | translate }}</ion-label>
         <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
       </ion-item>
 
+      <div padding>
+        <ion-item class="infoInput">
+            <ion-label>Native Language</ion-label>
+            <ion-select [(ngModel)]="account.nativeLanguage" multiple="false" name="lang">
+              <ion-option value='en-US'>English</ion-option>
+              <ion-option value='fr-FR'>French</ion-option>
+              <ion-option value='de-DE'>German</ion-option>
+            </ion-select>
+          </ion-item>
+      </div>
+
+      <div padding>
+      <ion-item class="infoInput">
+          <ion-label>Language to Learn:</ion-label>
+          <ion-select [(ngModel)]="account.language" multiple="false" name="lang">
+            <ion-option value='en-US'>English</ion-option>
+            <ion-option value='fr-FR'>French</ion-option>
+            <ion-option value='de-DE'>German</ion-option>
+          </ion-select>
+        </ion-item>
+       </div>
       <div padding>
         <button ion-button color="primary" block>{{ 'SIGNUP_BUTTON' | translate }}</button>
       </div>
