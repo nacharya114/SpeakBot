@@ -178,8 +178,10 @@ export class ChatPage {
         .then((message)=> {
           this.currentMessages.push(message);
           this.chatId = this.chatbotInterface.getChatId();
+          console.log("before speech plays");
+          this.playSpeech(null, message);
+          console.log("after");
           this.scrollToBottom();
-          this.playSpeech(null, message.content);
         });
      });
    });
@@ -235,6 +237,7 @@ export class ChatPage {
        "en-US": "US English Female"
      };
      var adjusted = (message.speed ? 1 : 0.5);
+     console.log("playSpeech():" + adjusted);
      responsiveVoice.speak(message.content, map[this.currentLanguage], {rate: adjusted});
      message.speed++;
      message.speed %= 2;
