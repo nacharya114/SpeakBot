@@ -129,7 +129,7 @@ export class ChatPage {
           console.log("Changed language:");
           console.log(msgs);
            this.currentMessages = msgs;
-           this.playSpeech(null, this.currentMessages[0]);
+           this.playSpeech(null, this.currentMessages[this.currentMessages.length -1]);
         });
     });
   }
@@ -249,6 +249,7 @@ export class ChatPage {
       message['isTranslated'] = false;
     } else if (message['translation']){
       message['isTranslated'] = true;
+      this.playSpeech(null, message);
     } else {
       if (!(this.currentLanguage == this.user.getUser().nativeLanguage)) {
         this._zone.run(() => {
