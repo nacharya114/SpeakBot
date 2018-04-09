@@ -17,6 +17,11 @@ var prime = {
       "vtext3": "Hello, Cleverbot",
       "input": "Ask me a question!"
   }
+  "es-MX": {
+    "vtext2": "Hola!",
+    "vtext3": "Hola, Cleverbot",
+    "input": "Hazme una pregunta"
+  }
 };
 
 var key = {"key": "CC8hy0Bny7N8DtVbWrw3EYKGSIQ" };
