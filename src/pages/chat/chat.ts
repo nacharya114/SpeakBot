@@ -238,7 +238,7 @@ export class ChatPage {
      };
      var adjusted = (message.speed ? 1 : 0.5);
      console.log("playSpeech():" + adjusted);
-     responsiveVoice.speak(message.content, map[this.currentLanguage], {rate: adjusted});
+     responsiveVoice.speak(message.content, map[this.currentLanguage], {rate: adjusted, volume: 1});
      message.speed++;
      message.speed %= 2;
       // this.text2speech.speak({text: message.content, locale: this.currentLanguage, rate: 1}).catch( error => {});
