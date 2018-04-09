@@ -17,6 +17,7 @@
 <ion-content>
 
   <ion-grid>
+    <ion-row [ngClass]="{inviRow:isIOS,noRow:!isIOS}"></ion-row>
     <ion-row *ngFor="let message of currentMessages">
         <div col-9 *ngIf="message.name === 'Cleverbot'">
           <button class="botmessage"  ion-item text-wrap (click)="translate(message)" on-hold="revertConversation(message)" color="primary">

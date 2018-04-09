@@ -30,6 +30,7 @@ export class ChatPage {
   chatId: String = "";
   currentLanguage = "";
   recording = false;
+  isIOS = false;
 
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
@@ -44,6 +45,10 @@ export class ChatPage {
       this.playSpeech(null, this.currentMessages[this.currentMessages.length - 1]);
       this.content.scrollToBottom();
     });
+    if(this.plt.is('ios')){
+      this.isIOS = true;
+    }
+
   }
 
   presentLanguageActionSheet() {
@@ -148,7 +153,7 @@ export class ChatPage {
      this.speech.startListening({"language": this.currentLanguage}).subscribe(data =>{
         resolve(data[0]);
      });
-     if(this.plt.is('ios')){
+     if(this.isIOS){
        this.recording = true;
      }
 
@@ -191,7 +196,7 @@ export class ChatPage {
    this.hasPermission()
     .then(data =>{
       if (data) {
-        if(!this.recording || !this.plt.is('ios')){
+        if(!this.recording || !this.isIOS){
         this.sendMessage();
       }else{
         this.speech.stopListening();

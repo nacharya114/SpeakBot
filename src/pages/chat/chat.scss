@@ -32,7 +32,16 @@ padding: 0px;
   color: map-get($colors, secondary);
   background-color: map-get($colors, primary);
 }
+
 .R{
-  color: map-get($colors, light);
+  color: map-get($colors, primary);
   background-color: map-get($colors, secondary);
+}
+
+.inviRow{
+  background-color: #03a9f4;
+  height: 10px;
+}
+.noRow{
+  height: 0px;
 }
