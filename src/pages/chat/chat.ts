@@ -55,7 +55,8 @@ export class ChatPage {
     var languages = this.user.getLanguages();
     var map = {"en-US": "English",
               "fr-FR": "French",
-              "de-DE":"German"};
+              "de-DE":"German",
+              "es-MX":"Spanish"};
     let buttonArr = [];
     for(let lang of languages){
       var button = {text: map[lang],
@@ -240,7 +241,7 @@ export class ChatPage {
      var map = {
        "fr-FR": "French Female",
        "de-DE": "Deutsch Female",
-       "en-US": "US English Female"
+       "en-US": "US English Female",
        "es-MX": "Spanish Latin American Female"
      };
      var adjusted = (message.speed ? 1 : 0.5);
