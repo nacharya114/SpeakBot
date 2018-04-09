@@ -18,9 +18,11 @@ var prime = {
       "input": "Ask me a question!"
   }
   "es-MX": {
-    "vtext2": "Hola!",
-    "vtext3": "Hola, Cleverbot",
-    "input": "Preguntar una pregunta"
+    "vtext2": "Yo estoy bien",
+    "vtext3": "Como estas",
+    "vtext4": "Hola",
+    "vtext5": "Hola",
+    "input": "Preguntar una pregunta, por favor"
   }
 };
 
