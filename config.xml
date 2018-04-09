@@ -84,7 +84,6 @@
     <plugin name="cordova-plugin-tts" spec="^0.2.3" />
     <plugin name="com.telerik.plugins.nativepagetransitions" spec="^0.6.5" />
     <plugin name="phonegap-plugin-speech-recognition" spec="https://github.com/macdonst/SpeechRecognitionPlugin" />
-    <plugin name="cordova-plugin-speechrecognition" spec="^1.2.0" />
     <engine name="android" spec="^6.4.0" />
     <engine name="ios" spec="4.5.4" />
 </widget>
