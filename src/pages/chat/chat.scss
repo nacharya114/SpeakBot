@@ -30,7 +30,9 @@ padding: 0px;
 
 .nR{
   color: map-get($colors, secondary);
+  background-color: map-get($colors, primary);
 }
 .R{
   color: map-get($colors, light);
+  background-color: map-get($colors, secondary);
 }
