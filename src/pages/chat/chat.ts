@@ -75,7 +75,7 @@ export class ChatPage {
   }
 
   addLanguageActionSheet() {
-    var languages = ["English", "French", "German"];
+    var languages = ["English", "French", "German","Spanish"];
     var map = {"English": "en-US",
               "French": "fr-FR",
               "German":"de-DE",

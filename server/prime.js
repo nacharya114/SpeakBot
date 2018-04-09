@@ -20,7 +20,7 @@ var prime = {
   "es-MX": {
     "vtext2": "Hola!",
     "vtext3": "Hola, Cleverbot",
-    "input": "Hazme una pregunta"
+    "input": "Preguntar una pregunta"
   }
 };
 
