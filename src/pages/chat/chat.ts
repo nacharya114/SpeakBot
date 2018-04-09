@@ -209,6 +209,7 @@ export class ChatPage {
      const permission = await this.speech.hasPermission();
      return permission;
    } catch(e) {
+     alert("hasPermission error");
      alert(e);
    }
  }
@@ -218,7 +219,8 @@ export class ChatPage {
      const perm = await this.speech.requestPermission();
      return perm;
    } catch(e) {
-
+     alert("getPermission error");
+     alert(e);
    }
  }
 
